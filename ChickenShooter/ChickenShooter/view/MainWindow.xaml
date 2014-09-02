@@ -10,6 +10,7 @@
         </Grid.ColumnDefinitions>
         <Canvas Name="paintCanvas" Background="White"
                 Grid.Column="1" HorizontalAlignment="Stretch" MaxWidth="500" MaxHeight="300" Grid.ColumnSpan="2">
+            <Label x:Name="bulletCountLabel" Content="Label" Canvas.Top="248" Width="114" Panel.ZIndex="100"/>
             <Label x:Name="hitCountLabel" Content="Label" Canvas.Top="274" Width="114" Panel.ZIndex="100"/>
             <Label x:Name="timeLabel" Content="Label" Canvas.Top="-1" RenderTransformOrigin="0,-0.115" Panel.ZIndex="100"/>
         </Canvas>

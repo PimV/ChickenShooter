@@ -11,11 +11,19 @@ namespace ChickenShooter.model
 
         private long gameTime;
         private int score;
+        private int bullets;
+
 
         public int Score
         {
             get { return score; }
             set { score = value; }
+        }
+
+        public int Bullets
+        {
+            get { return bullets; }
+            set { bullets = value; }
         }
 
         public long GameTime
@@ -29,6 +37,7 @@ namespace ChickenShooter.model
         {
             this.gameTime = 0;
             this.score = 0;
+            this.bullets = 10;
         }
 
         public void increaseScore()
@@ -41,7 +50,10 @@ namespace ChickenShooter.model
             this.GameTime += time;
         }
 
-
+        public void decreaseBullets()
+        {
+            this.Bullets--;
+        }
 
     }
 }

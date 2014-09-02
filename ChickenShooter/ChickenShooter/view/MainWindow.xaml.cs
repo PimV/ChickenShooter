@@ -60,6 +60,11 @@ namespace ChickenShooter
             hitCountLabel.Content = "Hits: " + score;
         }
 
+        public void updateBullets(int bullets)
+        {
+            bulletCountLabel.Content = "Bullets: " + bullets;
+        }
+
         public void updateTime(long time)
         {
 

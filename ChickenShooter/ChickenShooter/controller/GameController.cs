@@ -45,6 +45,7 @@ namespace ChickenShooter.controller
             {
                 statTracker.increaseTime(interval);
                 chicken.moveRandomly();
+                mainView.updateBullets(statTracker.Bullets);
                 mainView.updateScore(statTracker.Score);
                 mainView.updateTime(statTracker.GameTime);
                 mainView.renderChicken(chicken);
@@ -63,7 +64,7 @@ namespace ChickenShooter.controller
                 statTracker.increaseScore();
                 //running = false;
             }
-
+            statTracker.decreaseBullets();
 
         }
     }
