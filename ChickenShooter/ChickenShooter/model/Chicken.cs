@@ -38,7 +38,6 @@ namespace ChickenShooter.model
                 dx = -dx;
             }
             x += dx;
-            Console.WriteLine((y + dy + height) + ":" + screen_height);
             if (y + dy + height > screen_height || y + dy < 0)
             {
                 dy = -dy;
