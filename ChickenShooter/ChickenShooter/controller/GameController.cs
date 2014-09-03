@@ -73,12 +73,12 @@ namespace ChickenShooter.controller
 
                 if (statTracker.Score == StatTracker.MAX_SCORE)
                 {
-                    running = false;
+                    this.endGame();
                     mainView.winGame();
                 }
                 else if (statTracker.Bullets == 0)
                 {
-                    running = false;
+                    this.endGame();
                     mainView.loseGame();
                 }
 
