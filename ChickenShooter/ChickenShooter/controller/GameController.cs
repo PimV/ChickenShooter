@@ -15,7 +15,6 @@ namespace ChickenShooter.controller
     public class GameController
     {
         public MainWindow mainView;
-        public Chicken chicken;
         public List<Chicken> chickens;
         private Boolean running;
         private ChickenShooter.helper.Timer hqTimer;
@@ -28,7 +27,6 @@ namespace ChickenShooter.controller
         {
             mainView = new MainWindow(this);
             mainView.Show();
-            chicken = new Chicken(5, 5);
 
             statTracker = new StatTracker();
             hqTimer = new helper.Timer();
@@ -115,6 +113,31 @@ namespace ChickenShooter.controller
             }
             
             statTracker.decreaseBullets();
+        }
+
+        public void slowDown()
+        {
+            Thread t = new Thread(new ThreadStart(slowDownThread));
+            t.Start();
+
+        }
+
+        public void slowDownThread()
+        {
+            long startSlowTime = hqTimer.ElapsedMilliSeconds;
+            foreach (Chicken chicken in chickens)
+            {
+                chicken.slowDown();
+            }
+            while (hqTimer.ElapsedMilliSeconds - startSlowTime < 2000)
+            {
+                Console.WriteLine("Wait for slow to pass");
+            }
+            foreach (Chicken chicken in chickens)
+            {
+                chicken.speedUp();
+            }
+
         }
 
     }

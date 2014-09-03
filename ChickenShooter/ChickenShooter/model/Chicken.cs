@@ -11,34 +11,43 @@ namespace ChickenShooter.model
 
         private Random rnd;
 
+        private double defaultDx;
+        private double defaultDy;
+
         public Chicken()
             : base()
         {
             rnd = new Random();
             this.Height = 50;
             this.Width = 50;
-            this.dx = -5;
-            this.dy = 3;
+            this.defaultDx = -5;
+            this.defaultDy = 3;
+            this.dx = this.defaultDx;
+            this.dy = this.defaultDy;
         }
 
-        public Chicken(int x, int y)
+        public Chicken(double x, double y)
             : base(x, y)
         {
             rnd = new Random();
             this.Height = 50;
             this.Width = 50;
-            this.dx = -2;
-            this.dy = 3;
+            this.defaultDx = -2;
+            this.defaultDy = 3;
+            this.dx = this.defaultDx;
+            this.dy = this.defaultDy;
         }
 
-        public Chicken(int x, int y, int dx, int dy)
+        public Chicken(double x, double y, double dx, double dy)
             : base(x, y)
         {
             rnd = new Random();
             this.Height = 50;
             this.Width = 50;
-            this.dx = dx;
-            this.dy = dy;
+            this.defaultDx = dx;
+            this.defaultDy = dy;
+            this.dx = this.defaultDx;
+            this.dy = this.defaultDy;
         }
 
         public void moveRandomly()
@@ -55,7 +64,63 @@ namespace ChickenShooter.model
             y += dy;
         }
 
-        public Boolean isHit(int x, int y)
+        public void slowDown()
+        {
+            while (this.dx > Math.Abs((defaultDx / 10)))
+            {
+                Console.WriteLine("Slowing X");
+                if (this.dx > 0)
+                {
+                    this.dx -= (this.dx / 10);
+                }
+                else if (this.dx < 0)
+                {
+                    this.dx += (this.dx / 10);
+                }
+            }
+
+            while (this.dy > Math.Abs((defaultDy / 10)))
+            {
+                Console.WriteLine("Slowing Y");
+                if (this.dy > 0)
+                {
+                    this.dy -= (this.dy / 10);
+                }
+                else if (this.dy < 0)
+                {
+                    this.dy += (this.dy / 10);
+                }
+            }
+        }
+
+        public void speedUp()
+        {
+            while (this.dx < Math.Abs(defaultDx))
+            {
+                if (this.dx > 0)
+                {
+                    this.dx += (this.dx / 10);
+                }
+                else if (this.dx < 0)
+                {
+                    this.dx -= (this.dx / 10);
+                }
+            }
+
+            while (this.dy < Math.Abs(defaultDy))
+            {
+                if (this.dy > 0)
+                {
+                    this.dy += (this.dy / 10);
+                }
+                else if (this.dy < 0) 
+                {
+                    this.dy -= (this.dy / 10);
+                }
+            }
+        }
+
+        public Boolean isHit(double x, double y)
         {
             if ((x >= X && x < (Width + X)) && (y > Y && y < (Height + Y)))
             {

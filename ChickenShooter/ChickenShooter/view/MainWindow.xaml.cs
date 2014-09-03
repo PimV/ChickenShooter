@@ -89,30 +89,19 @@ namespace ChickenShooter
             Canvas.SetLeft(chickenIcon, chicken.X);
             Canvas.SetTop(chickenIcon, chicken.Y);
             paintCanvas.Children.Add(chickenIcon);
-
-
-
-
         }
 
         public void renderChickens(List<Chicken> chickens)
         {
-            //paintCanvas.Children.Clear();
             clearCanvas();
             foreach (Chicken chicken in chickens)
             {
-                //renderChickenRenewCanvas(chicken);
                 renderChickenImage(chicken);
             }
         }
 
         public void clearCanvas()
         {
-            //String fpsContent = (String) fpsLabel.Content;
-            //String bulletCountLabelContent = (String) bulletCountLabel.Content;
-            //String hitCountLabelContent = (String)hitCountLabel.Content;
-            //String timeLabelContent = (String)timeLabel.Content;
-
             System.Windows.UIElement fps = fpsLabel;
             System.Windows.UIElement bulletCount = bulletCountLabel;
             System.Windows.UIElement hitCount = hitCountLabel;
@@ -148,10 +137,18 @@ namespace ChickenShooter
         }
 
 
-        public void mouse_down(object sender, EventArgs e)
+        public void mouse_down(object sender, MouseButtonEventArgs e)
         {
-            Point p = System.Windows.Input.Mouse.GetPosition(paintCanvas);
-            gameController.shoot(p.X, p.Y);
+            if (MouseButton.Left == e.ChangedButton)
+            {
+                Point p = System.Windows.Input.Mouse.GetPosition(paintCanvas);
+                gameController.shoot(p.X, p.Y);
+            }
+            else if (MouseButton.Right == e.ChangedButton) 
+            {
+                gameController.slowDown();
+            }
+           
         }
 
         public void winGame()

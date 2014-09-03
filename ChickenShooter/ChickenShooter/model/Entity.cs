@@ -9,15 +9,26 @@ namespace ChickenShooter.model
     public class Entity
     {
 
-        protected int x;
-        protected int y;
-        protected int dy;
-        protected int dx;
+        protected double x;
+        protected double y;
+        protected double dy;
+        protected double dx;
         protected int width;
         protected int height;
 
         protected int screen_width = 500;
         protected int screen_height = 300;
+
+        public double Dx
+        {
+            get { return dx; }
+            set { dx = value; }
+        }
+        public double Dy
+        {
+            get { return dy; }
+            set { dy = value; }
+        }
 
         public int Width
         {
@@ -37,7 +48,7 @@ namespace ChickenShooter.model
             }
         }
 
-        public int X
+        public double X
         {
             get
             {
@@ -48,7 +59,7 @@ namespace ChickenShooter.model
                 this.x = value;
             }
         }
-        public int Y
+        public double Y
         {
             get
             {
@@ -60,7 +71,7 @@ namespace ChickenShooter.model
             }
         }
 
-        public Entity(int x, int y)
+        public Entity(double x, double y)
         {
             this.X = x;
             this.Y = y;
