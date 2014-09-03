@@ -17,7 +17,6 @@ namespace ChickenShooter.controller
         public MainWindow mainView;
         public Chicken chicken;
         private Boolean running;
-        private DispatcherTimer timer;
         private ChickenShooter.helper.Timer hqTimer;
         private int fps;
         private int interval;
@@ -32,23 +31,17 @@ namespace ChickenShooter.controller
             statTracker = new StatTracker();
             hqTimer = new helper.Timer();
 
-
-
             fps = 60;
             interval = 1000 / fps;
             running = true;
 
             gameThread = new Thread(update);
-            //hqTimer.Start();
             gameThread.Start();
+        }
 
-
-            //timer = new DispatcherTimer();
-            //timer.Tick += new EventHandler(update);
-            //timer.Interval = new TimeSpan(0, 0, 0, 0, interval);
-            //timer.Start();
-
-
+        public void endGame()
+        {
+            running = false;
         }
 
         public void update()
@@ -78,23 +71,23 @@ namespace ChickenShooter.controller
 
                 }));
 
+                if (statTracker.Score == StatTracker.MAX_SCORE)
+                {
+                    running = false;
+                    mainView.winGame();
+                }
+                else if (statTracker.Bullets == 0)
+                {
+                    running = false;
+                    mainView.loseGame();
+                }
 
                 while (hqTimer.ElapsedMilliSeconds - timeElapsed < interval)
                 {
                 }
 
 
-                if (statTracker.Score == StatTracker.MAX_SCORE || statTracker.Bullets == 0)
-                    running = false;
             }
-
-
-
-            mainView.winGame();
-            //mainView.Close();
-            
-            //mainView.loseGame();
-            //mainView.Close();
         }
 
         public void shoot(double x, double y)
@@ -105,7 +98,6 @@ namespace ChickenShooter.controller
                 statTracker.increaseScore();
             }
             statTracker.decreaseBullets();
-            
         }
 
     }

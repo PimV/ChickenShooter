@@ -3,6 +3,7 @@ using ChickenShooter.helper;
 using ChickenShooter.model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -34,6 +35,13 @@ namespace ChickenShooter
             InitializeComponent();
             this.gameController = gameController;
             paintCanvas.MouseDown += new MouseButtonEventHandler(mouse_down);
+            this.Closing += CloseGameScreen;
+        }
+
+
+        public void CloseGameScreen(object sender, EventArgs e)
+        {
+            gameController.endGame();
         }
 
         public void renderChicken(Chicken chicken)
