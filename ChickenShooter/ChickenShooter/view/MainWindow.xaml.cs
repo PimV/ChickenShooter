@@ -27,6 +27,7 @@ namespace ChickenShooter
 
         public GameController gameController;
         private System.Windows.Shapes.Rectangle chickenRect;
+        private List<System.Windows.Shapes.Rectangle> chickenRects;
 
         public MainWindow(GameController gameController)
             : base()
@@ -58,6 +59,68 @@ namespace ChickenShooter
 
         }
 
+        public void renderChickenRenewCanvas(Chicken chicken)
+        {
+
+            System.Windows.Shapes.Rectangle chickenRectangle = new System.Windows.Shapes.Rectangle();
+            chickenRectangle.Stroke = new SolidColorBrush(Colors.Black);
+            chickenRectangle.Fill = new SolidColorBrush(Colors.Black);
+
+            chickenRectangle.Width = chicken.Width;
+            chickenRectangle.Height = chicken.Height;
+            Canvas.SetLeft(chickenRectangle, chicken.X);
+            Canvas.SetTop(chickenRectangle, chicken.Y);
+
+            paintCanvas.Children.Add(chickenRectangle);
+
+        }
+        public void renderChickenImage(Chicken chicken)
+        {
+            Image chickenIcon = new Image();
+            BitmapImage chickenImage = new BitmapImage(new Uri("..\\images\\chicken.jpg", UriKind.RelativeOrAbsolute));
+            chickenIcon.Source = chickenImage;
+            chickenIcon.Width = chicken.Width;
+            chickenIcon.Height = chicken.Height;
+            Canvas.SetLeft(chickenIcon, chicken.X);
+            Canvas.SetTop(chickenIcon, chicken.Y);
+            paintCanvas.Children.Add(chickenIcon);
+
+
+
+
+        }
+
+        public void renderChickens(List<Chicken> chickens)
+        {
+            //paintCanvas.Children.Clear();
+            clearCanvas();
+            foreach (Chicken chicken in chickens)
+            {
+                //renderChickenRenewCanvas(chicken);
+                renderChickenImage(chicken);
+            }
+        }
+
+        public void clearCanvas()
+        {
+            //String fpsContent = (String) fpsLabel.Content;
+            //String bulletCountLabelContent = (String) bulletCountLabel.Content;
+            //String hitCountLabelContent = (String)hitCountLabel.Content;
+            //String timeLabelContent = (String)timeLabel.Content;
+
+            System.Windows.UIElement fps = fpsLabel;
+            System.Windows.UIElement bulletCount = bulletCountLabel;
+            System.Windows.UIElement hitCount = hitCountLabel;
+            System.Windows.UIElement time = timeLabel;
+
+            paintCanvas.Children.Clear();
+
+            paintCanvas.Children.Add(fps);
+            paintCanvas.Children.Add(bulletCount);
+            paintCanvas.Children.Add(hitCount);
+            paintCanvas.Children.Add(time);
+        }
+
         public void updateFPS(double fps)
         {
             fpsLabel.Content = "FPS: " + fps;
@@ -79,10 +142,6 @@ namespace ChickenShooter
             timeLabel.Content = "Time busy: " + time;
         }
 
-        public void clearCanvas()
-        {
-            paintCanvas.Children.Clear();
-        }
 
         public void mouse_down(object sender, EventArgs e)
         {

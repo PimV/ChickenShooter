@@ -8,6 +8,7 @@
             <ColumnDefinition Width="161*"/>
             <ColumnDefinition Width="356*"/>
         </Grid.ColumnDefinitions>
+
         <Canvas Name="paintCanvas" Background="White"
                 Grid.Column="1" HorizontalAlignment="Stretch" MaxWidth="500" MaxHeight="300" Grid.ColumnSpan="2">
             <Label x:Name="bulletCountLabel" Content="Label" Canvas.Top="248" Width="114" Panel.ZIndex="100"/>
@@ -15,5 +16,7 @@
             <Label x:Name="timeLabel" Content="Label" Canvas.Top="-1" RenderTransformOrigin="0,-0.115" Panel.ZIndex="100"/>
             <Label x:Name="fpsLabel" Content="Label" Canvas.Left="421" Canvas.Top="-1" Width="79"/>
         </Canvas>
+
+
     </Grid>
 </Window>

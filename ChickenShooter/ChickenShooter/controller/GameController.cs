@@ -16,6 +16,7 @@ namespace ChickenShooter.controller
     {
         public MainWindow mainView;
         public Chicken chicken;
+        public List<Chicken> chickens;
         private Boolean running;
         private DispatcherTimer timer;
         private ChickenShooter.helper.Timer hqTimer;
@@ -29,8 +30,13 @@ namespace ChickenShooter.controller
             mainView = new MainWindow(this);
             mainView.Show();
             chicken = new Chicken(5, 5);
+
             statTracker = new StatTracker();
             hqTimer = new helper.Timer();
+            chickens = new List<Chicken>();
+            chickens.Add(new Chicken(50, 50));
+            chickens.Add(new Chicken(100, 100));
+            chickens.Add(new Chicken(5, 5,-8,5));
 
 
 
@@ -39,15 +45,7 @@ namespace ChickenShooter.controller
             running = true;
 
             gameThread = new Thread(update);
-            //hqTimer.Start();
             gameThread.Start();
-
-
-
-            //timer = new DispatcherTimer();
-            //timer.Tick += new EventHandler(update);
-            //timer.Interval = new TimeSpan(0, 0, 0, 0, interval);
-            //timer.Start();
 
 
         }
@@ -62,13 +60,17 @@ namespace ChickenShooter.controller
                 long timeElapsed = hqTimer.ElapsedMilliSeconds;
 
                 //Update Models
-                chicken.moveRandomly();
+                foreach (Chicken chicken1 in chickens)
+                {
+                    chicken1.moveRandomly();
+                }
                 statTracker.setGameTime(timeElapsed);
 
                 //Update View
                 mainView.Dispatcher.Invoke(new Action(() =>
                 {
-                    mainView.renderChicken(chicken);
+                    //mainView.renderChicken(chicken);
+                    mainView.renderChickens(chickens);
                     mainView.updateBullets(statTracker.Bullets);
                     mainView.updateScore(statTracker.Score);
                     mainView.updateTime(statTracker.GameTime);
@@ -76,7 +78,6 @@ namespace ChickenShooter.controller
                     {
                         mainView.updateFPS(1000 / (timeElapsed / updateCount));
                     }
-
                 }));
 
 
@@ -91,11 +92,19 @@ namespace ChickenShooter.controller
 
         public void shoot(double x, double y)
         {
-            bool hit = chicken.isHit((int)x, (int)y);
-            if (hit)
+            Console.WriteLine("SHOOT");
+            foreach (Chicken chicken1 in chickens)
             {
-                statTracker.increaseScore();
+                bool hit = chicken1.isHit((int)x, (int)y);
+                if (hit)
+                {
+                   
+                    statTracker.increaseScore();
+                    chickens.Remove(chicken1);
+                    break;
+                }
             }
+            
             statTracker.decreaseBullets();
         }
     }

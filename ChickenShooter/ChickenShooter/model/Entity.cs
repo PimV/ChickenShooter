@@ -21,14 +21,8 @@ namespace ChickenShooter.model
 
         public int Width
         {
-            get
-            {
-                return width;
-            }
-            set
-            {
-                width = value;
-            }
+            get { return width; }
+            set { width = value; }
         }
 
         public int Height

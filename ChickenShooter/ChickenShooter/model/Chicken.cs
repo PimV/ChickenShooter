@@ -17,7 +17,7 @@ namespace ChickenShooter.model
             rnd = new Random();
             this.Height = 50;
             this.Width = 50;
-            this.dx = 5;
+            this.dx = -5;
             this.dy = 3;
         }
 
@@ -27,8 +27,18 @@ namespace ChickenShooter.model
             rnd = new Random();
             this.Height = 50;
             this.Width = 50;
-            this.dx = 2;
+            this.dx = -2;
             this.dy = 3;
+        }
+
+        public Chicken(int x, int y, int dx, int dy)
+            : base(x, y)
+        {
+            rnd = new Random();
+            this.Height = 50;
+            this.Width = 50;
+            this.dx = dx;
+            this.dy = dy;
         }
 
         public void moveRandomly()
