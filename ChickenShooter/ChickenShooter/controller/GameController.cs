@@ -18,9 +18,11 @@ namespace ChickenShooter.controller
         public Chicken chicken;
         private Boolean running;
         private DispatcherTimer timer;
+        private ChickenShooter.helper.Timer hqTimer;
         private int fps;
         private int interval;
         private StatTracker statTracker;
+        private Thread gameThread;
 
         public GameController()
         {
@@ -28,31 +30,62 @@ namespace ChickenShooter.controller
             mainView.Show();
             chicken = new Chicken(5, 5);
             statTracker = new StatTracker();
+            hqTimer = new helper.Timer();
+
+
 
             fps = 60;
             interval = 1000 / fps;
-
-            timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(update);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, interval);
-            timer.Start();
             running = true;
+
+            gameThread = new Thread(update);
+            //hqTimer.Start();
+            gameThread.Start();
+
+
+
+            //timer = new DispatcherTimer();
+            //timer.Tick += new EventHandler(update);
+            //timer.Interval = new TimeSpan(0, 0, 0, 0, interval);
+            //timer.Start();
+
+
         }
 
-        public void update(object sender, EventArgs e)
+        public void update()
         {
-            if (running)
+            hqTimer.Start();
+            int updateCount = 0;
+            while (running)
             {
-                statTracker.increaseTime(interval);
+                updateCount++;
+                long timeElapsed = hqTimer.ElapsedMilliSeconds;
+
+                //Update Models
                 chicken.moveRandomly();
-                mainView.updateBullets(statTracker.Bullets);
-                mainView.updateScore(statTracker.Score);
-                mainView.updateTime(statTracker.GameTime);
-                mainView.renderChicken(chicken);
-            }
-            else
-            {
-                timer.Stop();
+                statTracker.setGameTime(timeElapsed);
+
+                //Update View
+                mainView.Dispatcher.Invoke(new Action(() =>
+                {
+                    mainView.renderChicken(chicken);
+                    mainView.updateBullets(statTracker.Bullets);
+                    mainView.updateScore(statTracker.Score);
+                    mainView.updateTime(statTracker.GameTime);
+                    if (timeElapsed / updateCount > 0)
+                    {
+                        mainView.updateFPS(1000 / (timeElapsed / updateCount));
+                    }
+
+                }));
+
+
+
+
+
+                while (hqTimer.ElapsedMilliSeconds - timeElapsed < interval)
+                {
+                }
             }
         }
 
@@ -62,10 +95,8 @@ namespace ChickenShooter.controller
             if (hit)
             {
                 statTracker.increaseScore();
-                //running = false;
             }
             statTracker.decreaseBullets();
-
         }
     }
 }

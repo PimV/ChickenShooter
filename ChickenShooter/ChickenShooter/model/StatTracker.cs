@@ -50,6 +50,11 @@ namespace ChickenShooter.model
             this.GameTime += time;
         }
 
+        public void setGameTime(long time)
+        {
+            this.GameTime = time;
+        }
+
         public void decreaseBullets()
         {
             this.Bullets--;

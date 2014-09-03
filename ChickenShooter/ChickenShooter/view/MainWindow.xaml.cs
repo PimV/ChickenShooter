@@ -37,6 +37,8 @@ namespace ChickenShooter
         }
 
 
+
+
         public void renderChicken(Chicken chicken)
         {
             if (chickenRect == null)
@@ -53,6 +55,12 @@ namespace ChickenShooter
             {
                 paintCanvas.Children.Add(chickenRect);
             }
+
+        }
+
+        public void updateFPS(double fps)
+        {
+            fpsLabel.Content = "FPS: " + fps;
         }
 
         public void updateScore(int score)
