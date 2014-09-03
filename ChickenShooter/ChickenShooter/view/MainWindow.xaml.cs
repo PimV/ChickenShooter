@@ -3,6 +3,7 @@ using ChickenShooter.helper;
 using ChickenShooter.model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -35,10 +36,14 @@ namespace ChickenShooter
             InitializeComponent();
             this.gameController = gameController;
             paintCanvas.MouseDown += new MouseButtonEventHandler(mouse_down);
+            this.Closing += CloseGameScreen;
         }
 
 
-
+        public void CloseGameScreen(object sender, EventArgs e)
+        {
+            gameController.endGame();
+        }
 
         public void renderChicken(Chicken chicken)
         {
@@ -149,7 +154,15 @@ namespace ChickenShooter
             gameController.shoot(p.X, p.Y);
         }
 
+        public void winGame()
+        {
+            MessageBox.Show("You hit the target 5 times. You win!");
+        }
 
+        public void loseGame()
+        {
+            MessageBox.Show("You are out of bullets. You lose.");
+        }
 
     }
 }

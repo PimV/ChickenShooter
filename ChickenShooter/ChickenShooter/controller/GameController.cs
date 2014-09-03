@@ -18,7 +18,6 @@ namespace ChickenShooter.controller
         public Chicken chicken;
         public List<Chicken> chickens;
         private Boolean running;
-        private DispatcherTimer timer;
         private ChickenShooter.helper.Timer hqTimer;
         private int fps;
         private int interval;
@@ -38,16 +37,17 @@ namespace ChickenShooter.controller
             chickens.Add(new Chicken(100, 100));
             chickens.Add(new Chicken(5, 5,-8,5));
 
-
-
             fps = 60;
             interval = 1000 / fps;
             running = true;
 
             gameThread = new Thread(update);
             gameThread.Start();
+        }
 
-
+        public void endGame()
+        {
+            running = false;
         }
 
         public void update()
@@ -80,13 +80,22 @@ namespace ChickenShooter.controller
                     }
                 }));
 
-
-
-
+                if (statTracker.Score == StatTracker.MAX_SCORE)
+                {
+                    this.endGame();
+                    mainView.winGame();
+                }
+                else if (statTracker.Bullets == 0)
+                {
+                    this.endGame();
+                    mainView.loseGame();
+                }
 
                 while (hqTimer.ElapsedMilliSeconds - timeElapsed < interval)
                 {
                 }
+
+
             }
         }
 
@@ -107,5 +116,6 @@ namespace ChickenShooter.controller
             
             statTracker.decreaseBullets();
         }
+
     }
 }

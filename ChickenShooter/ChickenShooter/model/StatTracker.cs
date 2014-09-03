@@ -12,7 +12,7 @@ namespace ChickenShooter.model
         private long gameTime;
         private int score;
         private int bullets;
-
+        public static int MAX_SCORE { get; set; }
 
         public int Score
         {
@@ -38,6 +38,7 @@ namespace ChickenShooter.model
             this.gameTime = 0;
             this.score = 0;
             this.bullets = 10;
+            MAX_SCORE = 5;
         }
 
         public void increaseScore()
