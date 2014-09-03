@@ -80,7 +80,8 @@ namespace ChickenShooter.controller
                 }));
 
 
-
+                if (statTracker.Score == StatTracker.MAX_SCORE) mainView.winGame();
+                else if (statTracker.Bullets == 0) mainView.loseGame();
 
 
                 while (hqTimer.ElapsedMilliSeconds - timeElapsed < interval)
@@ -97,6 +98,9 @@ namespace ChickenShooter.controller
                 statTracker.increaseScore();
             }
             statTracker.decreaseBullets();
+            
         }
+
+        
     }
 }
