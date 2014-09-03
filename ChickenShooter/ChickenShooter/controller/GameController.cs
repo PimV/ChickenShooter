@@ -43,7 +43,6 @@ namespace ChickenShooter.controller
             gameThread.Start();
 
 
-
             //timer = new DispatcherTimer();
             //timer.Tick += new EventHandler(update);
             //timer.Interval = new TimeSpan(0, 0, 0, 0, interval);
@@ -80,14 +79,22 @@ namespace ChickenShooter.controller
                 }));
 
 
-                if (statTracker.Score == StatTracker.MAX_SCORE) mainView.winGame();
-                else if (statTracker.Bullets == 0) mainView.loseGame();
-
-
                 while (hqTimer.ElapsedMilliSeconds - timeElapsed < interval)
                 {
                 }
+
+
+                if (statTracker.Score == StatTracker.MAX_SCORE || statTracker.Bullets == 0)
+                    running = false;
             }
+
+
+
+            mainView.winGame();
+            //mainView.Close();
+            
+            //mainView.loseGame();
+            //mainView.Close();
         }
 
         public void shoot(double x, double y)
@@ -101,6 +108,5 @@ namespace ChickenShooter.controller
             
         }
 
-        
     }
 }

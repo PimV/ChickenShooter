@@ -36,9 +36,6 @@ namespace ChickenShooter
             paintCanvas.MouseDown += new MouseButtonEventHandler(mouse_down);
         }
 
-
-
-
         public void renderChicken(Chicken chicken)
         {
             if (chickenRect == null)
@@ -93,13 +90,11 @@ namespace ChickenShooter
         public void winGame()
         {
             MessageBox.Show("You hit the target 5 times. You win!");
-            this.Close();
         }
 
         public void loseGame()
         {
             MessageBox.Show("You are out of bullets. You lose.");
-            this.Close();
         }
 
     }

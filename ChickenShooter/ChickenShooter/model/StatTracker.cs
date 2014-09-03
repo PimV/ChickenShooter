@@ -12,7 +12,6 @@ namespace ChickenShooter.model
         private long gameTime;
         private int score;
         private int bullets;
-
         public static int MAX_SCORE { get; set; }
 
         public int Score
