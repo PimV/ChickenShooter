@@ -19,7 +19,7 @@ namespace ChickenShooter
 
         public App()
         {
-            gameController = new GameController();
+            Game game = new Game();
         }
     }
 }

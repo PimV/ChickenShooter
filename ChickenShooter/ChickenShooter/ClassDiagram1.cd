@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ChickenShooter.App" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.MainWindow" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAABAAAAAAAA=</HashCode>
+      <FileName>view\MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.controller.BulletTimeController" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAIAAAAAAAAQIAAAAAAAAAAA=</HashCode>
+      <FileName>controller\BulletTimeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.controller.GameController" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAEAAAAABAAEAAIAACAAAgAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>controller\GameController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.controller.ShootController" Collapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAIAAAAAAAAQIAAAAAAAAAAA=</HashCode>
+      <FileName>controller\ShootController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.helper.Timer" Collapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAACAAAAAAAAAAAAAAAAIAgAAAAAAAA=</HashCode>
+      <FileName>helper\Timer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.model.Chicken" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAgAIAAAAAAAAAAAAAAAAIAAAAAAQAAAEA=</HashCode>
+      <FileName>model\Chicken.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.model.Entity" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAABAAAAAwBQAAIAEAAAAAAAAAAAABgAAAAbAA=</HashCode>
+      <FileName>model\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.model.Game" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACgAAABIAAAIYAAGCAAoAIAAKIBAAAAAAAAA=</HashCode>
+      <FileName>model\Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.model.GameState" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAACQAAAAAAA=</HashCode>
+      <FileName>model\GameState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.model.Mouse" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>model\Mouse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.model.StatTracker" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgAAACIAAAAgAAAAIAQAAAAAAAAAABAAAAAAAgAA=</HashCode>
+      <FileName>model\StatTracker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.Properties.Resources" Collapsed="true">
+    <Position X="10.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.Properties.Settings" Collapsed="true">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChickenShooter.view.GameCanvas" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAIAAAAAAAAAAAQAAAAIAABAAAAAAAA=</HashCode>
+      <FileName>view\GameCanvas.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

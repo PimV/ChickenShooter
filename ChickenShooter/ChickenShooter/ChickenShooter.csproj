@@ -64,13 +64,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="controller\BulletTimeController.cs" />
     <Compile Include="controller\GameController.cs" />
+    <Compile Include="controller\ShootController.cs" />
     <Compile Include="helper\Timer.cs" />
     <Compile Include="model\Chicken.cs" />
     <Compile Include="model\Entity.cs" />
+    <Compile Include="model\Game.cs" />
     <Compile Include="model\GameState.cs" />
     <Compile Include="model\Mouse.cs" />
     <Compile Include="model\StatTracker.cs" />
+    <Compile Include="view\GameCanvas.cs" />
     <Compile Include="view\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -94,6 +98,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
