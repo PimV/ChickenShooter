@@ -33,11 +33,12 @@ namespace ChickenShooter
         {
             InitializeComponent();
             this.game = game;
+            this.Closing += CloseGameScreen;
         }
 
-        public void makeController()
+        public void CloseGameScreen(object sender, EventArgs e)
         {
-
+            game.Running = false;
         }
 
     }

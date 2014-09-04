@@ -66,11 +66,8 @@ namespace ChickenShooter.model
 
         public void slowDown()
         {
-            Console.WriteLine("before slow -- dx: " + this.dx + ", dy: " + this.dy);
             this.dx = this.dx / 2;
             this.dy = this.dy / 2;
-            Console.WriteLine("after slow -- dx: " + this.dx + ", dy: " + this.dy);
-
         }
 
         public void speedUp()

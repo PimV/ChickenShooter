@@ -72,5 +72,20 @@ namespace ChickenShooter.view
             }
         }
 
+        public void update()
+        {
+            //Utilize UI Thread to update GUI
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                clearCanvas();
+                renderChickens();
+            }));
+        }
+
+        public void clearCanvas()
+        {
+            this.Children.Clear();
+        }
+
     }
 }

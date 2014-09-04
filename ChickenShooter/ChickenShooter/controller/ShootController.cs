@@ -13,11 +13,14 @@ namespace ChickenShooter.controller
 
         private Game game;
         private MainWindow gameWindow;
+        private Boolean hasEvents;
+        public Boolean HasEvents { get { return hasEvents; } set { hasEvents = value; } }
 
         public ShootController(Game game, MainWindow gameWindow)
         {
             this.game = game;
             this.gameWindow = gameWindow;
+            this.game.ShootControl = this;
             this.addMouseListener();
         }
 
@@ -26,9 +29,16 @@ namespace ChickenShooter.controller
             game.Canvas.MouseDown += new MouseButtonEventHandler(shootEvent);
         }
 
-        public void shootEvent(object sender, MouseEventArgs e)
+        public void shootEvent(object sender, MouseButtonEventArgs e)
         {
-            Console.WriteLine("SHOOTING");
+
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                //Console.WriteLine("Shoot!");
+                this.hasEvents = true;
+                game.ProcessInput = true;
+               // game.shoot();
+            }
         }
 
     }

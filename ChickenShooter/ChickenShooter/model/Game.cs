@@ -1,4 +1,5 @@
-﻿using ChickenShooter.helper;
+﻿using ChickenShooter.controller;
+using ChickenShooter.helper;
 using ChickenShooter.view;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,16 @@ namespace ChickenShooter.model
         private double fps;
         private double interval;
         private List<Chicken> chickens;
+        private Boolean processInput;
+        private ShootController shootControl;
+        private BulletTimeController bulletTimeControl;
         public GameCanvas Canvas { get { return canvas; } set { canvas = value; } }
         public MainWindow GameWindow { get { return gameWindow; } set { gameWindow = value; } }
         public Boolean Running { get { return running; } set { running = value; } }
         public List<Chicken> Chickens { get { return chickens; } set { chickens = value; } }
+        public Boolean ProcessInput { get { return processInput; } set { processInput = value; } }
+        public ShootController ShootControl { get { return shootControl; } set { shootControl = value; } }
+        public BulletTimeController BulletTimeControl { get { return bulletTimeControl; } set { bulletTimeControl = value; } }
 
 
         //Threads
@@ -50,7 +57,6 @@ namespace ChickenShooter.model
             chickens.Add(new Chicken(80, 80, 5, -5));
 
             gameLoopThread = new Thread(gameLoop);
-            gameLoopThread.ApartmentState = ApartmentState.STA;
             gameLoopThread.Start();
 
 
@@ -63,14 +69,47 @@ namespace ChickenShooter.model
             {
                 long previousTimeElapsed = hqTimer.ElapsedMilliSeconds;
 
-                gameLogic();
-                renderGame();
+                if (this.processInput)
+                {
+                    this.handleInput();
+                    Console.WriteLine("Has input to process");
+                }
 
+                this.gameLogic();
+                this.renderGame();
+
+
+                this.processInput = false;
                 if (hqTimer.ElapsedMilliSeconds - previousTimeElapsed < interval)
                 {
                     Thread.Sleep((int)Math.Round(interval - (hqTimer.ElapsedMilliSeconds - previousTimeElapsed)));
                 }
             }
+        }
+
+        public void handleInput()
+        {
+            if (ShootControl.HasEvents)
+            {
+                Console.WriteLine("SHOOT!");
+                ShootControl.HasEvents = false;
+            }
+
+            if (BulletTimeControl.HasEvents)
+            {
+                Console.WriteLine("BULLET TIME!");
+                BulletTimeControl.HasEvents = false;
+            }
+        }
+
+        public void shoot()
+        {
+
+        }
+
+        public void slowDown()
+        {
+
         }
 
         /**
@@ -89,7 +128,7 @@ namespace ChickenShooter.model
          */
         public void renderGame()
         {
-            this.canvas.renderChickens();
+            this.canvas.update();
         }
     }
 }
