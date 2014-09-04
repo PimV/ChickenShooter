@@ -151,9 +151,9 @@ namespace ChickenShooter
            
         }
 
-        public void winGame()
+        public void winGame(int targets)
         {
-            MessageBox.Show("You hit the target 5 times. You win!");
+            MessageBox.Show("You hit the target " + targets + " times. You win!");
         }
 
         public void loseGame()

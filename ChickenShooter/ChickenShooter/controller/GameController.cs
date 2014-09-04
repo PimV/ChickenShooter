@@ -33,11 +33,13 @@ namespace ChickenShooter.controller
             chickens = new List<Chicken>();
             chickens.Add(new Chicken(50, 50));
             chickens.Add(new Chicken(100, 100));
-            chickens.Add(new Chicken(5, 5,-8,5));
+            chickens.Add(new Chicken(5, 5, -8, 5));
 
             fps = 60;
             interval = 1000 / fps;
             running = true;
+
+            statTracker.MAX_SCORE = chickens.Count;
 
             gameThread = new Thread(update);
             gameThread.Start();
@@ -78,10 +80,10 @@ namespace ChickenShooter.controller
                     }
                 }));
 
-                if (statTracker.Score == StatTracker.MAX_SCORE)
+                if (statTracker.Score == statTracker.MAX_SCORE)
                 {
                     this.endGame();
-                    mainView.winGame();
+                    mainView.winGame(statTracker.MAX_SCORE);
                 }
                 else if (statTracker.Bullets == 0)
                 {
@@ -99,31 +101,33 @@ namespace ChickenShooter.controller
 
         public void shoot(double x, double y)
         {
-            Console.WriteLine("SHOOT");
             foreach (Chicken chicken1 in chickens)
             {
                 bool hit = chicken1.isHit((int)x, (int)y);
                 if (hit)
                 {
-                   
                     statTracker.increaseScore();
                     chickens.Remove(chicken1);
                     break;
                 }
             }
-            
+
             statTracker.decreaseBullets();
         }
 
         public void slowDown()
         {
+
             Thread t = new Thread(new ThreadStart(slowDownThread));
             t.Start();
+
+
 
         }
 
         public void slowDownThread()
         {
+
             long startSlowTime = hqTimer.ElapsedMilliSeconds;
             foreach (Chicken chicken in chickens)
             {
@@ -131,14 +135,14 @@ namespace ChickenShooter.controller
             }
             while (hqTimer.ElapsedMilliSeconds - startSlowTime < 2000)
             {
-                Console.WriteLine("Wait for slow to pass");
             }
             foreach (Chicken chicken in chickens)
             {
                 chicken.speedUp();
             }
-
+            Thread.Sleep(100);
         }
+
 
     }
 }

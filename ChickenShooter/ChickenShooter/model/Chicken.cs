@@ -66,58 +66,17 @@ namespace ChickenShooter.model
 
         public void slowDown()
         {
-            while (this.dx > Math.Abs((defaultDx / 10)))
-            {
-                Console.WriteLine("Slowing X");
-                if (this.dx > 0)
-                {
-                    this.dx -= (this.dx / 10);
-                }
-                else if (this.dx < 0)
-                {
-                    this.dx += (this.dx / 10);
-                }
-            }
+            Console.WriteLine("before slow -- dx: " + this.dx + ", dy: " + this.dy);
+            this.dx = this.dx / 2;
+            this.dy = this.dy / 2;
+            Console.WriteLine("after slow -- dx: " + this.dx + ", dy: " + this.dy);
 
-            while (this.dy > Math.Abs((defaultDy / 10)))
-            {
-                Console.WriteLine("Slowing Y");
-                if (this.dy > 0)
-                {
-                    this.dy -= (this.dy / 10);
-                }
-                else if (this.dy < 0)
-                {
-                    this.dy += (this.dy / 10);
-                }
-            }
         }
 
         public void speedUp()
         {
-            while (this.dx < Math.Abs(defaultDx))
-            {
-                if (this.dx > 0)
-                {
-                    this.dx += (this.dx / 10);
-                }
-                else if (this.dx < 0)
-                {
-                    this.dx -= (this.dx / 10);
-                }
-            }
-
-            while (this.dy < Math.Abs(defaultDy))
-            {
-                if (this.dy > 0)
-                {
-                    this.dy += (this.dy / 10);
-                }
-                else if (this.dy < 0) 
-                {
-                    this.dy -= (this.dy / 10);
-                }
-            }
+            this.dx = this.dx * 2;
+            this.dy = this.dy * 2;
         }
 
         public Boolean isHit(double x, double y)
