@@ -23,6 +23,7 @@ namespace ChickenShooter.model
         private Boolean processInput;
         private ShootController shootControl;
         private BulletTimeController bulletTimeControl;
+        private StatTracker statusTracker;
         public GameCanvas Canvas { get { return canvas; } set { canvas = value; } }
         public MainWindow GameWindow { get { return gameWindow; } set { gameWindow = value; } }
         public Boolean Running { get { return running; } set { running = value; } }
@@ -30,6 +31,7 @@ namespace ChickenShooter.model
         public Boolean ProcessInput { get { return processInput; } set { processInput = value; } }
         public ShootController ShootControl { get { return shootControl; } set { shootControl = value; } }
         public BulletTimeController BulletTimeControl { get { return bulletTimeControl; } set { bulletTimeControl = value; } }
+        public StatTracker StatusTracker { get { return statusTracker; } set { statusTracker = value; } }
 
 
         //Threads
@@ -41,27 +43,50 @@ namespace ChickenShooter.model
         public Game()
         {
 
-            hqTimer = new helper.Timer();
-            fps = 60;
-            interval = 1000 / fps;
-
-
-            gameWindow = new MainWindow(this);
-
-            canvas = new GameCanvas(this, gameWindow);
+            initModels();
+            initView();
             this.running = true;
-            gameWindow.Show();
-
-            chickens = new List<Chicken>();
-            chickens.Add(new Chicken(5, 5, -5, 5));
-            chickens.Add(new Chicken(80, 80, 5, -5));
 
             gameLoopThread = new Thread(gameLoop);
+            gameLoopThread.Name = "Game Loop";
             gameLoopThread.Start();
 
 
         }
 
+        public void initModels()
+        {
+            //Entity Models
+            chickens = new List<Chicken>();
+            chickens.Add(new Chicken(5, 5, -5, 5));
+            chickens.Add(new Chicken(80, 80, 5, -5));
+            chickens.Add(new Chicken(150, 80, 5, -5));
+            chickens.Add(new Chicken(80, 250, 10, -5));
+            chickens.Add(new Chicken(45, 80, 2, -5));
+            chickens.Add(new Chicken(190, 150, 5, -5));
+
+            //Game Status
+            statusTracker = new StatTracker();
+            statusTracker.MAX_SCORE = chickens.Count;
+
+            //Timer
+            hqTimer = new helper.Timer();
+            fps = 60;
+            interval = 1000 / fps;
+        }
+
+        public void initView()
+        {
+            gameWindow = new MainWindow(this);
+            canvas = new GameCanvas(this, gameWindow);
+            gameWindow.Show();
+        }
+
+
+
+        /**
+         * Game loop
+         */
         public void gameLoop()
         {
             hqTimer.Start();
@@ -69,17 +94,11 @@ namespace ChickenShooter.model
             {
                 long previousTimeElapsed = hqTimer.ElapsedMilliSeconds;
 
-                if (this.processInput)
-                {
-                    this.handleInput();
-                    Console.WriteLine("Has input to process");
-                }
-
+                this.handleInput();
                 this.gameLogic();
                 this.renderGame();
+                this.checkGameStatus();
 
-                
-                this.processInput = false;
                 if (hqTimer.ElapsedMilliSeconds - previousTimeElapsed < interval)
                 {
                     Thread.Sleep((int)Math.Round(interval - (hqTimer.ElapsedMilliSeconds - previousTimeElapsed)));
@@ -87,13 +106,28 @@ namespace ChickenShooter.model
             }
         }
 
+        /**
+         * Handle the input from the controllers
+         */
         public void handleInput()
         {
+            if (!this.ProcessInput)
+            {
+                return;
+            }
             lock (ShootControl)
             {
                 if (ShootControl.HasEvents)
                 {
-
+                    foreach (Chicken chicken in chickens)
+                    {
+                        if (chicken.isHit(ShootControl.X, ShootControl.Y))
+                        {
+                            statusTracker.increaseScore();
+                            chickens.Remove(chicken);
+                            break;
+                        }
+                    }
                     ShootControl.HasEvents = false;
                 }
             }
@@ -104,34 +138,29 @@ namespace ChickenShooter.model
                 {
                     foreach (Chicken chicken in chickens)
                     {
+                        
                         chicken.slowDown();
                     }
-                 
+                    Thread.Sleep(1000);
                     foreach (Chicken chicken in chickens)
                     {
                         chicken.speedUp();
                     }
-                    Console.WriteLine("BULLET TIME!");
+                    Console.WriteLine("Fix Bullet Time");
                     BulletTimeControl.HasEvents = false;
                 }
             }
+
+            this.processInput = false;
         }
 
-        public void shoot()
-        {
-
-        }
-
-        public void slowDown()
-        {
-
-        }
 
         /**
          * Update Models
          */
         public void gameLogic()
         {
+            //gsm.gameLogic(gameState);
             foreach (Chicken chicken in chickens)
             {
                 chicken.moveRandomly();
@@ -144,6 +173,18 @@ namespace ChickenShooter.model
         public void renderGame()
         {
             this.canvas.update();
+        }
+
+        /**
+         * Check the game status
+         */
+        public void checkGameStatus()
+        {
+            if (statusTracker.Score == statusTracker.MAX_SCORE)
+            {
+                Console.WriteLine("FINISH GAME");
+                this.running = false;
+            }
         }
     }
 }

@@ -37,6 +37,7 @@ namespace ChickenShooter.view
             gameWindow.Content = this;
 
             game.ControllerThread = new Thread(makeController);
+            game.ControllerThread.Name = "Controller Thread";
             game.ControllerThread.Start();
 
         }

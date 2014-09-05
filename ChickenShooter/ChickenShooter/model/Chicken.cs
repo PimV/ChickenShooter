@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ChickenShooter.model
@@ -68,14 +69,15 @@ namespace ChickenShooter.model
 
         public void slowDown()
         {
-            this.dx = Math.Max(this.dx * .80, minFactor * this.defaultDx);
-            this.dy = Math.Max(this.dy * .80, minFactor * this.defaultDy);
+            
+            this.dx = defaultDx * minFactor;
+            this.dy = defaultDy * minFactor;
         }
 
         public void speedUp()
         {
-            this.dx = Math.Max(this.dx * 1.20, maxFactor * this.defaultDx);
-            this.dy = Math.Max(this.dy * 1.20, maxFactor * this.defaultDy);
+            this.dx = defaultDx * maxFactor;
+            this.dy = defaultDy * maxFactor;
         }
 
         public Boolean isHit(double x, double y)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChickenShooter.model
 {
-    class StatTracker
+    public class StatTracker
     {
 
         private long gameTime;
