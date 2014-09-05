@@ -13,6 +13,8 @@ namespace ChickenShooter.model
 
         private double defaultDx;
         private double defaultDy;
+        private double minFactor = 0.5;
+        private double maxFactor = 1;
 
         public Chicken()
             : base()
@@ -66,14 +68,14 @@ namespace ChickenShooter.model
 
         public void slowDown()
         {
-            this.dx = this.dx / 2;
-            this.dy = this.dy / 2;
+            this.dx = Math.Max(this.dx * .80, minFactor * this.defaultDx);
+            this.dy = Math.Max(this.dy * .80, minFactor * this.defaultDy);
         }
 
         public void speedUp()
         {
-            this.dx = this.dx * 2;
-            this.dy = this.dy * 2;
+            this.dx = Math.Max(this.dx * 1.20, maxFactor * this.defaultDx);
+            this.dy = Math.Max(this.dy * 1.20, maxFactor * this.defaultDy);
         }
 
         public Boolean isHit(double x, double y)

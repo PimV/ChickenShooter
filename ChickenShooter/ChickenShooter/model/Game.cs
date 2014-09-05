@@ -78,7 +78,7 @@ namespace ChickenShooter.model
                 this.gameLogic();
                 this.renderGame();
 
-
+                
                 this.processInput = false;
                 if (hqTimer.ElapsedMilliSeconds - previousTimeElapsed < interval)
                 {
@@ -89,16 +89,31 @@ namespace ChickenShooter.model
 
         public void handleInput()
         {
-            if (ShootControl.HasEvents)
+            lock (ShootControl)
             {
-                Console.WriteLine("SHOOT!");
-                ShootControl.HasEvents = false;
+                if (ShootControl.HasEvents)
+                {
+
+                    ShootControl.HasEvents = false;
+                }
             }
 
-            if (BulletTimeControl.HasEvents)
+            lock (BulletTimeControl)
             {
-                Console.WriteLine("BULLET TIME!");
-                BulletTimeControl.HasEvents = false;
+                if (BulletTimeControl.HasEvents)
+                {
+                    foreach (Chicken chicken in chickens)
+                    {
+                        chicken.slowDown();
+                    }
+                 
+                    foreach (Chicken chicken in chickens)
+                    {
+                        chicken.speedUp();
+                    }
+                    Console.WriteLine("BULLET TIME!");
+                    BulletTimeControl.HasEvents = false;
+                }
             }
         }
 
