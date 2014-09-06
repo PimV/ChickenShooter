@@ -1,4 +1,5 @@
-﻿using ChickenShooter.model;
+﻿using ChickenShooter.controller.actions;
+using ChickenShooter.model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,22 +38,13 @@ namespace ChickenShooter.controller
 
         public void shootEventKeyboard(object sender, KeyEventArgs e)
         {
-            Console.WriteLine("SHOOOT");
             if (e.Key == Key.Space)
-            {                
-                Point p = System.Windows.Input.Mouse.GetPosition(game.Canvas);
-                this.X = p.X;
-                this.Y = p.Y;
-                this.hasEvents = true;
-                game.ProcessInput = true;
-            }
-
-            if (e.Key == Key.T)
             {
                 Point p = System.Windows.Input.Mouse.GetPosition(game.Canvas);
-                this.X = p.X;
-                this.Y = p.Y;
-                this.hasEvents = true;
+                ShootAction sa = new ShootAction();
+                sa.X = p.X;
+                sa.Y = p.Y;
+                game.ActionsContainer.Enqueue(sa);
                 game.ProcessInput = true;
             }
         }
@@ -63,9 +55,10 @@ namespace ChickenShooter.controller
             if (e.ChangedButton == MouseButton.Left)
             {
                 Point p = System.Windows.Input.Mouse.GetPosition(game.Canvas);
-                this.X = p.X;
-                this.Y = p.Y;
-                this.hasEvents = true;
+                ShootAction sa = new ShootAction();
+                sa.X = p.X;
+                sa.Y = p.Y;
+                game.ActionsContainer.Enqueue(sa);
                 game.ProcessInput = true;
             }
         }

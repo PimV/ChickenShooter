@@ -72,8 +72,8 @@ namespace ChickenShooter.model
             stdMoveSpeed = moveSpeed;
             maxSpeed = 8;
             slowDownActive = false;
-        }       
-#endregion
+        }
+        #endregion
 
         public void update()
         {
@@ -104,9 +104,7 @@ namespace ChickenShooter.model
             }
             else if (movingRight)
             {
-
                 dx += moveSpeed * deltaTime;
-
 
                 if (dx > moveSpeed)
                 {
@@ -198,7 +196,10 @@ namespace ChickenShooter.model
         #region Slow Motion
         public void slowDown()
         {
-            this.slowDownActive = true;
+            if (this.slowDownActive == false && this.speedUpActive == false)
+            {
+                this.slowDownActive = true;
+            }
         }
 
         private void activateSlowDown()

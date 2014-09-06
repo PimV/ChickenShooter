@@ -1,4 +1,5 @@
 ﻿using ChickenShooter.controller;
+using ChickenShooter.controller.actions;
 using ChickenShooter.helper;
 using ChickenShooter.view;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ChickenShooter.model
 {
@@ -30,9 +32,11 @@ namespace ChickenShooter.model
         public MainWindow GameWindow { get { return gameWindow; } set { gameWindow = value; } }
         #endregion
         #region controllers
+        private ActionContainer actionsContainer;
         private ShootController shootControl;
         private BulletTimeController bulletTimeControl;
         private Boolean processInput;
+        public ActionContainer ActionsContainer { get { return actionsContainer; } set { actionsContainer = value; } }
         public ShootController ShootControl { get { return shootControl; } set { shootControl = value; } }
         public BulletTimeController BulletTimeControl { get { return bulletTimeControl; } set { bulletTimeControl = value; } }
         public Boolean ProcessInput { get { return processInput; } set { processInput = value; } }
@@ -46,7 +50,7 @@ namespace ChickenShooter.model
 
         public Game()
         {
-
+            actionsContainer = new ActionContainer();
             initModels();
             initView();
             this.running = true;
@@ -150,37 +154,46 @@ namespace ChickenShooter.model
             {
                 return;
             }
-            lock (ShootControl)
+            ControllerAction ca;
+            while (actionsContainer.Count > 0)
             {
-                if (ShootControl.HasEvents)
+                actionsContainer.TryDequeue(out ca);
+                if (ca == null)
                 {
-                    foreach (Chicken chicken in chickens)
+                    MessageBox.Show("SHOULD NOT BE HAPPENING!");
+                    this.ProcessInput = false;
+                    continue;
+                }
+                else
+                {
+                    switch (ca.ActionName)
                     {
-                        if (chicken.isHit(ShootControl.X, ShootControl.Y))
-                        {
-                            statusTracker.increaseScore();
-                            chickens.Remove(chicken);
+                        case "shoot":
+                            ca = (ShootAction)ca;
+                            foreach (Chicken chicken in chickens)
+                            {
+                                if (chicken.isHit(ca.X, ca.Y))
+                                {
+                                    statusTracker.increaseScore();
+                                    chickens.Remove(chicken);
+                                    break;
+                                }
+                            }
+                            statusTracker.decreaseBullets();
+                            ShootControl.HasEvents = false;
                             break;
-                        }
+                        case "slow motion":
+                            foreach (Chicken chicken in chickens)
+                            {
+                                chicken.slowDown();
+                            }
+                            BulletTimeControl.HasEvents = false;
+                            break;
                     }
-                    statusTracker.decreaseBullets();
-                    ShootControl.HasEvents = false;
+
                 }
             }
-
-            lock (BulletTimeControl)
-            {
-                if (BulletTimeControl.HasEvents)
-                {
-                    foreach (Chicken chicken in chickens)
-                    {
-                        chicken.slowDown();
-                    }
-                    BulletTimeControl.HasEvents = false;
-                }
-            }
-
-            this.processInput = false;
+            this.ProcessInput = false;
         }
 
 

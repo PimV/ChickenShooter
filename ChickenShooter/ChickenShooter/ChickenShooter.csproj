@@ -64,6 +64,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="controller\actions\ActionContainer.cs" />
+    <Compile Include="controller\actions\ControllerAction.cs" />
+    <Compile Include="controller\actions\ShootAction.cs" />
+    <Compile Include="controller\actions\SlowMotionAction.cs" />
     <Compile Include="controller\BulletTimeController.cs" />
     <Compile Include="controller\GameController.cs" />
     <Compile Include="controller\ShootController.cs" />

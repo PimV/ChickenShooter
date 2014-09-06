@@ -1,4 +1,5 @@
-﻿using ChickenShooter.model;
+﻿using ChickenShooter.controller.actions;
+using ChickenShooter.model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace ChickenShooter.controller
         {
             if (e.ChangedButton == MouseButton.Right)
             {
-               // Console.WriteLine("Bullet Time!");
+                game.ActionsContainer.Enqueue(new SlowMotionAction());
                 this.hasEvents = true;
                 game.ProcessInput = true;
             }
