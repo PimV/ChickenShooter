@@ -41,6 +41,8 @@ namespace ChickenShooter.model
         public Thread GameLoopThread { get { return gameLoopThread; } set { gameLoopThread = value; } }
         public Thread ControllerThread { get { return controllerThread; } set { controllerThread = value; } }
 
+
+
         public Game()
         {
 
@@ -92,21 +94,44 @@ namespace ChickenShooter.model
         public void gameLoop()
         {
             hqTimer.Start();
+            float currentTime = hqTimer.ElapsedMilliSeconds / 1000;
+            
+
             while (this.running)
             {
-                long previousTimeElapsed = hqTimer.ElapsedMilliSeconds;
-                long previousGameTick = currentGameTick;
-                currentGameTick = hqTimer.ElapsedMilliSeconds;
+                float newTime = hqTimer.ElapsedMilliSeconds / 1000;
+                float frameTime = newTime - currentTime;
+                currentTime = newTime;
+               // frameTime = (float(frameTime) / 1000.0f);
+               // if (frameTime > 0.25)
+               // {
+               //     frameTime = 0.25;
+               // }
+               // currentTime = newTime;
+
+               // accumulator += frameTime;
+
+               // while (accumulator >= dt)
+               // {
+               //     previous = current;
+               //     integrate(current, t, dt);
+               //     t += dt;
+               //     accumulator -= dt;
+               // }
+
+               // double alpha = accumulator / dt;
+
+               //// State state = current * alpha + prevoius * (1.0 - alpha);
+               // State state = interpolate(previous, current, alpha);
 
                 this.handleInput();
-                this.gameLogic(currentGameTick - previousGameTick);
-                this.renderGame(currentGameTick - previousGameTick);
+                this.gameLogic(frameTime);
+                this.renderGame(frameTime);
                 this.checkGameStatus();
-                currentGameTick = hqTimer.ElapsedMilliSeconds;
 
-                if (hqTimer.ElapsedMilliSeconds - previousTimeElapsed < interval)
+                if (frameTime < interval)
                 {
-                    Thread.Sleep((int)Math.Round(interval - (hqTimer.ElapsedMilliSeconds - previousTimeElapsed)));
+                    Thread.Sleep((int)Math.Round(interval - (frameTime)));
                 }
             }
         }
@@ -163,21 +188,20 @@ namespace ChickenShooter.model
         /**
          * Update Models
          */
-        public void gameLogic(long dt)
+        public void gameLogic(float frameTime)
         {
             statusTracker.GameTime = hqTimer.ElapsedMilliSeconds;
-            
+
             foreach (Chicken chicken in chickens)
             {
-                chicken.DeltaTime = dt;
-                chicken.update();
+                chicken.update(frameTime);
             }
         }
 
         /**
          * Update View
          */
-        public void renderGame(long deltaTime)
+        public void renderGame(double deltaTime)
         {
             this.canvas.update();
         }
@@ -193,5 +217,7 @@ namespace ChickenShooter.model
                 this.running = false;
             }
         }
+
+
     }
 }

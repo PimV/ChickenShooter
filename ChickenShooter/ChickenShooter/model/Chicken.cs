@@ -31,6 +31,15 @@ namespace ChickenShooter.model
             moveSpeed = 5;
             slowDownActive = false;
             maxSpeed = 2;
+
+            //
+            State newCurrentState = new State();
+            newCurrentState.x = 100;
+            newCurrentState.v = 0;
+
+            current = newCurrentState;
+
+            previous = current;
         }
 
         public Chicken(double x, double y)
@@ -48,6 +57,15 @@ namespace ChickenShooter.model
             moveSpeed = 2;
             slowDownActive = false;
             maxSpeed = 5;
+
+            //
+            State newCurrentState = new State();
+            newCurrentState.x = 100;
+            newCurrentState.v = 0;
+
+            current = newCurrentState;
+
+            previous = current;
         }
 
         public Chicken(double x, double y, double dx, double dy)
@@ -65,6 +83,15 @@ namespace ChickenShooter.model
             moveSpeed = 5;
             maxSpeed = 8;
             slowDownActive = false;
+
+            //
+            State newCurrentState = new State();
+            newCurrentState.x = 100;
+            newCurrentState.v =0;
+
+            current = newCurrentState;
+
+            previous = current;
         }
 
         public void getNextPosition()
@@ -115,12 +142,27 @@ namespace ChickenShooter.model
             }
         }
 
-        public void update()
+        public void update(float deltaTime)
         {
-            Console.WriteLine(this.DeltaTime);
-            getNextPosition();
+            if (deltaTime > 0.25f)
+            {
+                deltaTime = 0.25f;
+            }
 
-            moveRandomlyDynamic();
+            accumulator += deltaTime;
+            while (accumulator >= dt)
+            {
+                accumulator -= dt;
+                previous = current;
+                integrate(current, t, dt);
+                t += dt;
+            }
+            State state = interpolate(previous, current, accumulator / dt);
+            Console.WriteLine(state.x + ":" + state.v);
+            //Console.WriteLine(accumulator / dt);
+           // getNextPosition();
+
+           // moveRandomlyDynamic();
         }
 
         public void moveRandomlyDynamic()
