@@ -51,10 +51,17 @@ namespace ChickenShooter.model
             initView();
             this.running = true;
 
-            gameLoopThread = new Thread(gameLoop);
-            gameLoopThread.Name = "Game Loop";
-            gameLoopThread.Start();
+            runGameLoop();
 
+
+        }
+
+        public void runGameLoop()
+        {
+            gameLoopThread = new Thread(new ThreadStart(gameLoop));
+            gameLoopThread.Name = "Game Loop";
+            gameLoopThread.IsBackground = true;
+            gameLoopThread.Start();
 
         }
 
@@ -65,10 +72,10 @@ namespace ChickenShooter.model
             //chickens.Add(new Chicken(5, 5, -5, 5));
             // chickens.Add(new Chicken(80, 80, 5, -5));
             chickens.Add(new Chicken(80, 80));
-            //chickens.Add(new Chicken(150, 80, 5, -5));
-            //chickens.Add(new Chicken(80, 250, 10, -5));
-            //chickens.Add(new Chicken(45, 80, 2, -5));
-            //chickens.Add(new Chicken(190, 150, 5, -5));
+            chickens.Add(new Chicken(150, 80));
+            chickens.Add(new Chicken(80, 250));
+            chickens.Add(new Chicken(45, 80));
+            chickens.Add(new Chicken(190, 150));
 
             //Game Status
             statusTracker = new StatTracker();
@@ -92,45 +99,43 @@ namespace ChickenShooter.model
          */
         public void gameLoop()
         {
-            double fps = 60;
-            double timePerFrame = TimeSpan.FromSeconds(1.0 / fps).TotalMilliseconds;
-
-
+            double TARGET_FPS = 60;
+            double OPTIMAL_TIME = 1000 / TARGET_FPS;
 
             hqTimer.Start();
-            double currentTime = hqTimer.ElapsedMilliSeconds;
-            double lastTime = currentTime;
+            long lastLoopTime = hqTimer.ElapsedMilliSeconds;
 
-            int framesPerFPSUpdate = 100;
-            double timeSinceFPSUpdate = 0.0;
+            long lastFpsTime = 0;
+            int fps = 0;
 
             while (this.running)
             {
-                lastTime = currentTime;
-                currentTime = hqTimer.ElapsedMilliSeconds;
-                double deltaTime = currentTime - lastTime;
-                if (framesPerFPSUpdate == 0)
-                {
-                    // Console.WriteLine(timeSinceFPSUpdate);
-                    statusTracker.RealTimeFps = 100 * timeSinceFPSUpdate / 1000;
+                long now = hqTimer.ElapsedMilliSeconds;
+                long updateLength = now - lastLoopTime;
+                lastLoopTime = now;
+                double delta = updateLength / OPTIMAL_TIME;
 
-                    framesPerFPSUpdate = 100;
-                    timeSinceFPSUpdate = 0.0;
+                lastFpsTime += updateLength;
+                fps++;
+
+                if (lastFpsTime >= 1000)
+                {
+                    statusTracker.RealTimeFps = fps;
+                    lastFpsTime = 0;
+                    fps = 0;
                 }
-                framesPerFPSUpdate--;
-                timeSinceFPSUpdate += deltaTime;
-                Console.WriteLine(timeSinceFPSUpdate);
+
+
+
                 this.handleInput();
-                this.gameLogic(deltaTime);
-                this.renderGame(deltaTime);
+                this.gameLogic(delta);
+                this.renderGame(delta);
                 this.checkGameStatus();
 
 
-                if (deltaTime < timePerFrame)
+                if (lastLoopTime - hqTimer.ElapsedMilliSeconds + OPTIMAL_TIME > 0)
                 {
-                    // Console.WriteLine("dt = " + deltaTime + ", timePerFrame = " + timePerFrame);
-                    //   Thread.Sleep(new TimeSpan(0, 0, 0, 0, (int)(timePerFrame - deltaTime)));
-                    Thread.Sleep(TimeSpan.FromMilliseconds((timePerFrame - deltaTime)));
+                    Thread.Sleep(TimeSpan.FromMilliseconds(lastLoopTime - hqTimer.ElapsedMilliSeconds + OPTIMAL_TIME));
                 }
 
             }
@@ -171,12 +176,6 @@ namespace ChickenShooter.model
                     {
                         chicken.slowDown();
                     }
-
-                    foreach (Chicken chicken in chickens)
-                    {
-                        chicken.speedUp();
-                    }
-                    Console.WriteLine("Fix Bullet Time");
                     BulletTimeControl.HasEvents = false;
                 }
             }

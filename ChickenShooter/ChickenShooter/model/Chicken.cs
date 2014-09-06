@@ -14,8 +14,12 @@ namespace ChickenShooter.model
 
         private double defaultDx;
         private double defaultDy;
+        private double stdMoveSpeed;
         private Boolean slowDownActive;
+        private Boolean speedUpActive;
+        private double slowDownTime = 1500; //Hang for 1500ms in slowmow
 
+        #region Constructors
         public Chicken()
             : base()
         {
@@ -29,6 +33,7 @@ namespace ChickenShooter.model
             movingLeft = true;
             movingDown = true;
             moveSpeed = 5;
+            stdMoveSpeed = moveSpeed;
             slowDownActive = false;
             maxSpeed = 2;
         }
@@ -39,13 +44,14 @@ namespace ChickenShooter.model
             rnd = new Random();
             this.Height = 50;
             this.Width = 50;
-            this.defaultDx = -2;
+            this.defaultDx = -5;
             this.defaultDy = 3;
             this.dx = this.defaultDx;
             this.dy = this.defaultDy;
             movingLeft = false;
             movingDown = true;
-            moveSpeed = 2;
+            moveSpeed = 5;
+            stdMoveSpeed = moveSpeed;
             slowDownActive = false;
             maxSpeed = 5;
         }
@@ -63,18 +69,33 @@ namespace ChickenShooter.model
             movingLeft = false;
             movingDown = true;
             moveSpeed = 5;
+            stdMoveSpeed = moveSpeed;
             maxSpeed = 8;
             slowDownActive = false;
+        }       
+#endregion
+
+        public void update()
+        {
+            getNextPosition();
+            if (slowDownActive)
+            {
+                activateSlowDown();
+            }
+            if (speedUpActive)
+            {
+                activateSpeedUp();
+            }
+            moveRandomlyDynamic();
         }
 
+        #region Movement
         public void getNextPosition()
         {
 
             if (movingLeft)
             {
-
-
-                dx -= moveSpeed;
+                dx -= moveSpeed * deltaTime;
 
                 if (dx < -moveSpeed)
                 {
@@ -84,7 +105,7 @@ namespace ChickenShooter.model
             else if (movingRight)
             {
 
-                dx += moveSpeed;
+                dx += moveSpeed * deltaTime;
 
 
                 if (dx > moveSpeed)
@@ -96,7 +117,7 @@ namespace ChickenShooter.model
             if (movingUp)
             {
 
-                dy -= moveSpeed;
+                dy -= moveSpeed * deltaTime;
 
                 if (dy < -moveSpeed)
                 {
@@ -106,7 +127,7 @@ namespace ChickenShooter.model
             else if (movingDown)
             {
 
-                dy += moveSpeed;
+                dy += moveSpeed * deltaTime;
 
                 if (dy > moveSpeed)
                 {
@@ -115,18 +136,11 @@ namespace ChickenShooter.model
             }
         }
 
-        public void update()
-        {
-            getNextPosition();
-
-            moveRandomlyDynamic();
-        }
-
         public void moveRandomlyDynamic()
         {
             if (dx > 0)
             {
-                if (x + dx + width > screen_width)
+                if (x + (dx * deltaTime) + width > screen_width)
                 {
                     dx = 0;
                     movingLeft = true;
@@ -134,12 +148,12 @@ namespace ChickenShooter.model
                 }
                 else
                 {
-                    x += dx;
+                    x += dx * deltaTime;
                 }
             }
             if (dx < 0)
             {
-                if (x + dx < 0)
+                if (x + (dx * deltaTime) < 0)
                 {
                     dx = 0;
                     movingLeft = false;
@@ -147,13 +161,13 @@ namespace ChickenShooter.model
                 }
                 else
                 {
-                    x += dx;
+                    x += dx * deltaTime;
                 }
             }
 
             if (dy > 0)
             {
-                if (y + dy + height > screen_height)
+                if (y + (dy * deltaTime) + height > screen_height)
                 {
                     dy = 0;
                     movingUp = true;
@@ -161,13 +175,13 @@ namespace ChickenShooter.model
                 }
                 else
                 {
-                    y += dy;
+                    y += dy * deltaTime;
                 }
             }
 
             if (dy < 0)
             {
-                if (y + dy < 0)
+                if (y + (dy * deltaTime) < 0)
                 {
                     dy = 0;
                     movingUp = false;
@@ -175,36 +189,56 @@ namespace ChickenShooter.model
                 }
                 else
                 {
-                    y += dy;
+                    y += dy * deltaTime;
                 }
             }
         }
+        #endregion
 
-
-        public void moveRandomly()
-        {
-            if (x + dx + width > screen_width || x + dx < 0)
-            {
-                dx = -dx;
-            }
-            x += dx;
-            if (y + dy + height > screen_height || y + dy < 0)
-            {
-                dy = -dy;
-            }
-            y += dy;
-        }
-
+        #region Slow Motion
         public void slowDown()
         {
             this.slowDownActive = true;
         }
 
-        public void speedUp()
+        private void activateSlowDown()
         {
-            //this.slowDownActive = false;
+            if (moveSpeed > stdMoveSpeed / 8)
+            {
+                moveSpeed -= stdMoveSpeed / 50;
+            }
+            else
+            {
+                freezeAcceleration();
+            }
         }
 
+        private void freezeAcceleration()
+        {
+            slowDownTime -= (deltaTime * 50);
+            if (slowDownTime <= 0)
+            {
+                slowDownTime = 1500; //Freeze for approx 1500 ms
+                speedUpActive = true;
+                slowDownActive = false;
+            }
+        }
+
+        private void activateSpeedUp()
+        {
+            if (moveSpeed < stdMoveSpeed)
+            {
+                moveSpeed += stdMoveSpeed / 50;
+            }
+            else
+            {
+                moveSpeed = stdMoveSpeed;
+                speedUpActive = false;
+            }
+        }
+        #endregion
+
+        #region Hit Check
         public Boolean isHit(double x, double y)
         {
             if ((x >= X && x < (Width + X)) && (y > Y && y < (Height + Y)))
@@ -213,5 +247,6 @@ namespace ChickenShooter.model
             }
             return false;
         }
+        #endregion
     }
 }
