@@ -9,7 +9,7 @@ namespace ChickenShooter.model
     public class StatTracker
     {
 
-        private long gameTime;
+        private double gameTime;
         private int score;
         private int bullets;
         private int maxScore;
@@ -29,7 +29,7 @@ namespace ChickenShooter.model
             set { bullets = value; }
         }
 
-        public long GameTime
+        public double GameTime
         {
             get { return gameTime; }
             set { gameTime = value; }

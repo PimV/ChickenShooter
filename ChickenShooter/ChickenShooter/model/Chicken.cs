@@ -117,7 +117,6 @@ namespace ChickenShooter.model
 
         public void update()
         {
-            Console.WriteLine(this.DeltaTime);
             getNextPosition();
 
             moveRandomlyDynamic();

@@ -11,7 +11,7 @@ namespace ChickenShooter.helper
     {
         private Stopwatch stopWatch;
 
-        public long ElapsedMilliSeconds
+        public double ElapsedMilliSeconds
         {
             get { return stopWatch.ElapsedMilliseconds; }
         }
