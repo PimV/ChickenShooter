@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -17,6 +18,11 @@ namespace ChickenShooter.view
 
         private MainWindow gameWindow;
         private Game game;
+        private Label bulletCountLabel;
+        private Label hitCountLabel;
+        private Label timeLabel;
+        private Label fpsLabel;
+
 
         public GameCanvas(Game game, MainWindow gameWindow)
             : base()
@@ -25,21 +31,70 @@ namespace ChickenShooter.view
             this.game = game;
             this.gameWindow = gameWindow;
 
-            this.Width = 500;
-            this.Height = 300;
-            this.MaxHeight = 300;
-            this.MaxWidth = 500;
-            this.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
             this.Name = "paintCanvas";
-
             this.Background = new SolidColorBrush(Colors.White);
+            this.SetValue(Grid.ColumnProperty, 1);
+            this.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+            this.MaxWidth = 500;
+            this.MaxHeight = 300;
+            this.SetValue(Grid.ColumnSpanProperty, 2);
 
-            gameWindow.Content = this;
+            this.createInfoLabels();
+
+            gameWindow.mainGrid.Children.Add(this);
 
             game.ControllerThread = new Thread(makeController);
             game.ControllerThread.Name = "Controller Thread";
             game.ControllerThread.Start();
 
+        }
+
+        public void createInfoLabels()
+        {
+            if (bulletCountLabel == null)
+            {
+                bulletCountLabel = new Label();
+            }
+            bulletCountLabel.Content = "Bullets: " + game.StatusTracker.Bullets;
+            bulletCountLabel.Name = "bulletCountLabel";
+            bulletCountLabel.Width = 114;
+            Canvas.SetZIndex(bulletCountLabel, 100);
+            Canvas.SetTop(bulletCountLabel, 248);
+            this.Children.Add(bulletCountLabel);
+
+            if (hitCountLabel == null)
+            {
+                hitCountLabel = new Label();
+            }
+
+            hitCountLabel.Name = "hitCountLabel";
+            hitCountLabel.Content = "Hits: " + game.StatusTracker.Score;
+            Canvas.SetZIndex(hitCountLabel, 100);
+            Canvas.SetTop(hitCountLabel, 274);
+            hitCountLabel.Width = 114;
+            this.Children.Add(hitCountLabel);
+
+            if (timeLabel == null)
+            {
+                timeLabel = new Label();
+            }
+
+            timeLabel.Name = "timeLabel";
+            timeLabel.Content = "Time: " + game.StatusTracker.GameTime;
+            Canvas.SetZIndex(timeLabel, 100);
+            Canvas.SetTop(timeLabel, -1);
+            this.Children.Add(timeLabel);
+
+            if (fpsLabel == null)
+            {
+                fpsLabel = new Label();
+            }
+            fpsLabel.Name = "fpsLabel";
+            this.fpsLabel.Content = "FPS: " + game.StatusTracker.RealTimeFps;
+            Canvas.SetLeft(fpsLabel, 421);
+            Canvas.SetZIndex(fpsLabel, 100);
+            Canvas.SetTop(fpsLabel, -1);
+            this.Children.Add(fpsLabel);
         }
 
         public void makeController()
@@ -86,6 +141,7 @@ namespace ChickenShooter.view
         public void clearCanvas()
         {
             this.Children.Clear();
+            createInfoLabels();
         }
 
     }

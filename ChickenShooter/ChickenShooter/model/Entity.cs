@@ -9,15 +9,33 @@ namespace ChickenShooter.model
     public class Entity
     {
 
+        //Position and Vector
         protected double x;
         protected double y;
         protected double dy;
         protected double dx;
+        //Dimensions
         protected int width;
         protected int height;
+        //Movement
+        protected Boolean movingLeft;
+        protected Boolean movingRight;
+        protected Boolean movingUp;
+        protected Boolean movingDown;
+        //Movement Attributes
+        protected double moveSpeed;
+        protected double maxSpeed;
+        protected double minSpeed;
+        protected double stopSpeed;
+
+
+
+        protected double deltaTime;
 
         protected int screen_width = 500;
         protected int screen_height = 300;
+
+        public double DeltaTime { get { return deltaTime; } set { deltaTime = value; } }
 
         public double Dx
         {

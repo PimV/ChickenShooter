@@ -14,8 +14,7 @@ namespace ChickenShooter.model
 
         private double defaultDx;
         private double defaultDy;
-        private double minFactor = 0.5;
-        private double maxFactor = 1;
+        private Boolean slowDownActive;
 
         public Chicken()
             : base()
@@ -27,6 +26,11 @@ namespace ChickenShooter.model
             this.defaultDy = 3;
             this.dx = this.defaultDx;
             this.dy = this.defaultDy;
+            movingLeft = true;
+            movingDown = true;
+            moveSpeed = 5;
+            slowDownActive = false;
+            maxSpeed = 2;
         }
 
         public Chicken(double x, double y)
@@ -39,6 +43,11 @@ namespace ChickenShooter.model
             this.defaultDy = 3;
             this.dx = this.defaultDx;
             this.dy = this.defaultDy;
+            movingLeft = false;
+            movingDown = true;
+            moveSpeed = 2;
+            slowDownActive = false;
+            maxSpeed = 5;
         }
 
         public Chicken(double x, double y, double dx, double dy)
@@ -51,7 +60,127 @@ namespace ChickenShooter.model
             this.defaultDy = dy;
             this.dx = this.defaultDx;
             this.dy = this.defaultDy;
+            movingLeft = false;
+            movingDown = true;
+            moveSpeed = 5;
+            maxSpeed = 8;
+            slowDownActive = false;
         }
+
+        public void getNextPosition()
+        {
+
+            if (movingLeft)
+            {
+
+
+                dx -= moveSpeed;
+
+                if (dx < -moveSpeed)
+                {
+                    dx = -moveSpeed;
+                }
+            }
+            else if (movingRight)
+            {
+
+                dx += moveSpeed;
+
+
+                if (dx > moveSpeed)
+                {
+                    dx = moveSpeed;
+                }
+            }
+
+            if (movingUp)
+            {
+
+                dy -= moveSpeed;
+
+                if (dy < -moveSpeed)
+                {
+                    dy = -moveSpeed;
+                }
+            }
+            else if (movingDown)
+            {
+
+                dy += moveSpeed;
+
+                if (dy > moveSpeed)
+                {
+                    dy = moveSpeed;
+                }
+            }
+        }
+
+        public void update()
+        {
+            Console.WriteLine(this.DeltaTime);
+            getNextPosition();
+
+            moveRandomlyDynamic();
+        }
+
+        public void moveRandomlyDynamic()
+        {
+            if (dx > 0)
+            {
+                if (x + dx + width > screen_width)
+                {
+                    dx = 0;
+                    movingLeft = true;
+                    movingRight = false;
+                }
+                else
+                {
+                    x += dx;
+                }
+            }
+            if (dx < 0)
+            {
+                if (x + dx < 0)
+                {
+                    dx = 0;
+                    movingLeft = false;
+                    movingRight = true;
+                }
+                else
+                {
+                    x += dx;
+                }
+            }
+
+            if (dy > 0)
+            {
+                if (y + dy + height > screen_height)
+                {
+                    dy = 0;
+                    movingUp = true;
+                    movingDown = false;
+                }
+                else
+                {
+                    y += dy;
+                }
+            }
+
+            if (dy < 0)
+            {
+                if (y + dy < 0)
+                {
+                    dy = 0;
+                    movingUp = false;
+                    movingDown = true;
+                }
+                else
+                {
+                    y += dy;
+                }
+            }
+        }
+
 
         public void moveRandomly()
         {
@@ -69,15 +198,12 @@ namespace ChickenShooter.model
 
         public void slowDown()
         {
-            
-            this.dx = defaultDx * minFactor;
-            this.dy = defaultDy * minFactor;
+            this.slowDownActive = true;
         }
 
         public void speedUp()
         {
-            this.dx = defaultDx * maxFactor;
-            this.dy = defaultDy * maxFactor;
+            //this.slowDownActive = false;
         }
 
         public Boolean isHit(double x, double y)

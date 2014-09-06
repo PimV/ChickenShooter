@@ -24,6 +24,7 @@ namespace ChickenShooter.model
         private ShootController shootControl;
         private BulletTimeController bulletTimeControl;
         private StatTracker statusTracker;
+        private long currentGameTick;
         public GameCanvas Canvas { get { return canvas; } set { canvas = value; } }
         public MainWindow GameWindow { get { return gameWindow; } set { gameWindow = value; } }
         public Boolean Running { get { return running; } set { running = value; } }
@@ -58,12 +59,13 @@ namespace ChickenShooter.model
         {
             //Entity Models
             chickens = new List<Chicken>();
-            chickens.Add(new Chicken(5, 5, -5, 5));
-            chickens.Add(new Chicken(80, 80, 5, -5));
-            chickens.Add(new Chicken(150, 80, 5, -5));
-            chickens.Add(new Chicken(80, 250, 10, -5));
-            chickens.Add(new Chicken(45, 80, 2, -5));
-            chickens.Add(new Chicken(190, 150, 5, -5));
+            //chickens.Add(new Chicken(5, 5, -5, 5));
+            // chickens.Add(new Chicken(80, 80, 5, -5));
+            chickens.Add(new Chicken(80, 80));
+            //chickens.Add(new Chicken(150, 80, 5, -5));
+            //chickens.Add(new Chicken(80, 250, 10, -5));
+            //chickens.Add(new Chicken(45, 80, 2, -5));
+            //chickens.Add(new Chicken(190, 150, 5, -5));
 
             //Game Status
             statusTracker = new StatTracker();
@@ -93,11 +95,14 @@ namespace ChickenShooter.model
             while (this.running)
             {
                 long previousTimeElapsed = hqTimer.ElapsedMilliSeconds;
+                long previousGameTick = currentGameTick;
+                currentGameTick = hqTimer.ElapsedMilliSeconds;
 
                 this.handleInput();
-                this.gameLogic();
-                this.renderGame();
+                this.gameLogic(currentGameTick - previousGameTick);
+                this.renderGame(currentGameTick - previousGameTick);
                 this.checkGameStatus();
+                currentGameTick = hqTimer.ElapsedMilliSeconds;
 
                 if (hqTimer.ElapsedMilliSeconds - previousTimeElapsed < interval)
                 {
@@ -128,6 +133,7 @@ namespace ChickenShooter.model
                             break;
                         }
                     }
+                    statusTracker.decreaseBullets();
                     ShootControl.HasEvents = false;
                 }
             }
@@ -138,10 +144,9 @@ namespace ChickenShooter.model
                 {
                     foreach (Chicken chicken in chickens)
                     {
-                        
                         chicken.slowDown();
                     }
-                    Thread.Sleep(1000);
+
                     foreach (Chicken chicken in chickens)
                     {
                         chicken.speedUp();
@@ -158,19 +163,21 @@ namespace ChickenShooter.model
         /**
          * Update Models
          */
-        public void gameLogic()
+        public void gameLogic(long dt)
         {
-            //gsm.gameLogic(gameState);
+            statusTracker.GameTime = hqTimer.ElapsedMilliSeconds;
+            
             foreach (Chicken chicken in chickens)
             {
-                chicken.moveRandomly();
+                chicken.DeltaTime = dt;
+                chicken.update();
             }
         }
 
         /**
          * Update View
          */
-        public void renderGame()
+        public void renderGame(long deltaTime)
         {
             this.canvas.update();
         }
