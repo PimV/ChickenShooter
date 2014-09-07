@@ -56,7 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="view\MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -64,23 +64,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="controller\actions\ActionContainer.cs" />
-    <Compile Include="controller\actions\ControllerAction.cs" />
-    <Compile Include="controller\actions\ShootAction.cs" />
-    <Compile Include="controller\actions\SlowMotionAction.cs" />
-    <Compile Include="controller\BulletTimeController.cs" />
-    <Compile Include="controller\GameController.cs" />
-    <Compile Include="controller\ShootController.cs" />
-    <Compile Include="helper\Timer.cs" />
-    <Compile Include="model\Bullet.cs" />
-    <Compile Include="model\Chicken.cs" />
-    <Compile Include="model\Entity.cs" />
-    <Compile Include="model\Game.cs" />
-    <Compile Include="model\GameState.cs" />
-    <Compile Include="model\Mouse.cs" />
-    <Compile Include="model\StatTracker.cs" />
-    <Compile Include="view\GameCanvas.cs" />
-    <Compile Include="view\MainWindow.xaml.cs">
+    <Compile Include="Controller\actions\ActionContainer.cs" />
+    <Compile Include="Controller\actions\ControllerAction.cs" />
+    <Compile Include="Controller\actions\ShootAction.cs" />
+    <Compile Include="Controller\actions\SlowMotionAction.cs" />
+    <Compile Include="Controller\BulletTimeController.cs" />
+    <Compile Include="Controller\GameController.cs" />
+    <Compile Include="Controller\ShootController.cs" />
+    <Compile Include="Helper\Timer.cs" />
+    <Compile Include="Model\Bullet.cs" />
+    <Compile Include="Model\Chicken.cs" />
+    <Compile Include="Model\Entity.cs" />
+    <Compile Include="Model\Game.cs" />
+    <Compile Include="Model\GameState.cs" />
+    <Compile Include="Model\Mouse.cs" />
+    <Compile Include="Model\StatTracker.cs" />
+    <Compile Include="View\GameCanvas.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -114,16 +114,29 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\chicken.jpg" />
+    <Resource Include="Images\chicken.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\chicken.png" />
+    <Resource Include="Images\chicken.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\hitsplat.png" />
-    <Content Include="images\bullet.png" />
-    <Resource Include="images\gunshot-clipart-bullet-hole-hi.png" />
+    <Content Include="Sounds\Blood_Hit.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Flame woosh.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Gun_Load.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Small_Gun_Shot.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Images\hitsplat.png" />
+    <Content Include="Images\bullet.png" />
+    <Resource Include="Images\gunshot-clipart-bullet-hole-hi.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

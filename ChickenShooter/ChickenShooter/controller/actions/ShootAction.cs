@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace ChickenShooter.controller.actions
 {
     class ShootAction : ControllerAction
-    {
-  
+    { 
 
         public ShootAction()
         {

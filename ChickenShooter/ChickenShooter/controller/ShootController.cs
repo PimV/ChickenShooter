@@ -47,6 +47,10 @@ namespace ChickenShooter.controller
                 game.ActionsContainer.Enqueue(sa);
                 game.ProcessInput = true;
             }
+            else if (e.Key == Key.T)
+            {
+                game.restartGame();
+            }
         }
 
         public void shootEvent(object sender, MouseButtonEventArgs e)

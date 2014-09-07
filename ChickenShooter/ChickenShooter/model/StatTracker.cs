@@ -14,6 +14,13 @@ namespace ChickenShooter.model
         private int bullets;
         private int maxScore;
         private double realTimeFps;
+
+        private string statusMsg;
+        public string StatusMsg { get { return statusMsg; } set { statusMsg = value; } }
+
+        private Boolean gameRunning;
+        public Boolean GameRunning { get { return gameRunning; } set { gameRunning = value; } }
+
         public int MAX_SCORE { get { return maxScore; } set { maxScore = value; } }
 
         public double RealTimeFps { get { return realTimeFps; } set { realTimeFps = value; } }

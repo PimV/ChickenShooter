@@ -5,17 +5,23 @@ using ChickenShooter.view;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace ChickenShooter.model
 {
     public class Game
     {
         #region helpers
+
         private Boolean running;
+        private Boolean gameRunning;
+        public Boolean GameRunning { get { return gameRunning; } set { gameRunning = value; } }
         private helper.Timer hqTimer;
         public Boolean Running { get { return running; } set { running = value; } }
         #endregion
@@ -52,14 +58,22 @@ namespace ChickenShooter.model
 
         public Game()
         {
-            actionsContainer = new ActionContainer();
+
             initModels();
             initView();
             this.running = true;
-
             runGameLoop();
+        }
 
+        public void restartGame()
+        {
+            if (statusTracker.GameRunning == false)
+            {
+                gameLoopThread.Abort();
+                initModels();
 
+                runGameLoop();
+            }
         }
 
         public void runGameLoop()
@@ -68,15 +82,16 @@ namespace ChickenShooter.model
             gameLoopThread.Name = "Game Loop";
             gameLoopThread.IsBackground = true;
             gameLoopThread.Start();
+            this.statusTracker.GameRunning = true;
 
         }
 
         public void initModels()
         {
+
+            actionsContainer = new ActionContainer();
             //Entity Models
             chickens = new List<Chicken>();
-            //chickens.Add(new Chicken(5, 5, -5, 5));
-            // chickens.Add(new Chicken(80, 80, 5, -5));
             chickens.Add(new Chicken(80, 80));
             chickens.Add(new Chicken(150, 80));
             chickens.Add(new Chicken(80, 250));
@@ -84,7 +99,6 @@ namespace ChickenShooter.model
             chickens.Add(new Chicken(190, 150));
 
             bullets = new List<Bullet>();
-
 
             //Game Status
             statusTracker = new StatTracker();
@@ -100,8 +114,6 @@ namespace ChickenShooter.model
             canvas = new GameCanvas(this, gameWindow);
             gameWindow.Show();
         }
-
-
 
         /**
          * Game loop
@@ -135,12 +147,15 @@ namespace ChickenShooter.model
                 }
 
 
+                if (statusTracker.GameRunning)
+                {
+                    this.gameLogic(delta);
+                    this.handleInput();
 
-                this.handleInput();
-                this.gameLogic(delta);
+                }
+
                 this.renderGame(delta);
                 this.checkGameStatus();
-
 
                 if (lastLoopTime - hqTimer.ElapsedMilliSeconds + OPTIMAL_TIME > 0)
                 {
@@ -160,6 +175,7 @@ namespace ChickenShooter.model
                 return;
             }
             ControllerAction ca;
+            SoundPlayer player = new SoundPlayer();
             while (actionsContainer.Count > 0)
             {
                 actionsContainer.TryDequeue(out ca);
@@ -171,15 +187,22 @@ namespace ChickenShooter.model
                 }
                 else
                 {
+
                     switch (ca.ActionName)
                     {
                         case "shoot":
                             ca = (ShootAction)ca;
                             bullets.Add(new Bullet(ca.X, ca.Y));
+                            player.SoundLocation = "Sounds\\Small_Gun_Shot.wav";
+                            player.Play();
+
                             foreach (Chicken chicken in chickens)
                             {
                                 if (chicken.IsAlive && chicken.isHit(ca.X, ca.Y))
                                 {
+                                    player.SoundLocation = "Sounds\\Blood_Hit.wav";
+
+                                    player.Play();
                                     chicken.IsAlive = false;
                                     statusTracker.increaseScore();
                                     break;
@@ -189,6 +212,8 @@ namespace ChickenShooter.model
                             ShootControl.HasEvents = false;
                             break;
                         case "slow motion":
+                            player.SoundLocation = "Sounds\\Flame woosh.wav";
+                            player.Play();
                             foreach (Chicken chicken in chickens)
                             {
                                 chicken.slowDown();
@@ -223,7 +248,6 @@ namespace ChickenShooter.model
          */
         public void renderGame(double dt)
         {
-
             this.canvas.update();
         }
 
@@ -234,14 +258,14 @@ namespace ChickenShooter.model
         {
             if (statusTracker.Score == statusTracker.MAX_SCORE)
             {
-                Console.WriteLine("FINISH GAME");
-                this.running = false;
+                this.statusTracker.StatusMsg = "Congratulations, you won! Press 'T' to start over!";
+                this.statusTracker.GameRunning = false;
             }
-        }
-
-        public void calculateFps(double dt)
-        {
-
+            else if (statusTracker.Bullets == 0)
+            {
+                this.statusTracker.StatusMsg = "Too bad, you lost (no bullets left)! Press 'T' to start over!";
+                this.statusTracker.GameRunning = false;
+            }
         }
     }
 }

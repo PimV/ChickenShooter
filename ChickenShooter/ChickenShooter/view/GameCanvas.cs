@@ -22,9 +22,10 @@ namespace ChickenShooter.view
         private Label hitCountLabel;
         private Label timeLabel;
         private Label fpsLabel;
-        private BitmapImage chickenImage = new BitmapImage(new Uri("..\\images\\chicken.png", UriKind.RelativeOrAbsolute));
-        private BitmapImage bulletImage = new BitmapImage(new Uri("..\\images\\gunshot-clipart-bullet-hole-hi.png", UriKind.RelativeOrAbsolute));
-        private BitmapImage hitsplatImage = new BitmapImage(new Uri("..\\images\\hitsplat.png", UriKind.RelativeOrAbsolute));
+        private Label statusLabel;
+        private BitmapImage chickenImage = new BitmapImage(new Uri("..\\Images\\chicken.png", UriKind.RelativeOrAbsolute));
+        private BitmapImage bulletImage = new BitmapImage(new Uri("..\\Images\\gunshot-clipart-bullet-hole-hi.png", UriKind.RelativeOrAbsolute));
+        private BitmapImage hitsplatImage = new BitmapImage(new Uri("..\\Images\\hitsplat.png", UriKind.RelativeOrAbsolute));
 
 
         public GameCanvas(Game game, MainWindow gameWindow)
@@ -98,6 +99,22 @@ namespace ChickenShooter.view
             Canvas.SetZIndex(fpsLabel, 100);
             Canvas.SetTop(fpsLabel, -1);
             this.Children.Add(fpsLabel);
+
+            if (statusLabel == null)
+            {
+                statusLabel = new Label();
+            }
+            statusLabel.Name = "statusLabel";
+            statusLabel.Content = game.StatusTracker.StatusMsg;
+            statusLabel.Width = this.MaxWidth;
+            statusLabel.FontSize = 18;
+            statusLabel.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+            statusLabel.Height = 36;
+            Canvas.SetTop(statusLabel, Math.Round(this.MaxHeight / 2) - statusLabel.Height);
+            Canvas.SetZIndex(statusLabel, 150);
+            this.Children.Add(statusLabel);
+
+
         }
 
         public void makeController()
