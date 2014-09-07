@@ -22,8 +22,10 @@ namespace ChickenShooter.model
         #region models
         private StatTracker statusTracker;
         private List<Chicken> chickens;
+        private List<Bullet> bullets;
         public StatTracker StatusTracker { get { return statusTracker; } set { statusTracker = value; } }
         public List<Chicken> Chickens { get { return chickens; } set { chickens = value; } }
+        public List<Bullet> Bullets { get { return bullets; } set { bullets = value; } }
         #endregion
         #region views
         private MainWindow gameWindow;
@@ -80,6 +82,9 @@ namespace ChickenShooter.model
             chickens.Add(new Chicken(80, 250));
             chickens.Add(new Chicken(45, 80));
             chickens.Add(new Chicken(190, 150));
+
+            bullets = new List<Bullet>();
+
 
             //Game Status
             statusTracker = new StatTracker();
@@ -170,12 +175,13 @@ namespace ChickenShooter.model
                     {
                         case "shoot":
                             ca = (ShootAction)ca;
+                            bullets.Add(new Bullet(ca.X, ca.Y));
                             foreach (Chicken chicken in chickens)
                             {
-                                if (chicken.isHit(ca.X, ca.Y))
+                                if (chicken.IsAlive && chicken.isHit(ca.X, ca.Y))
                                 {
+                                    chicken.IsAlive = false;
                                     statusTracker.increaseScore();
-                                    chickens.Remove(chicken);
                                     break;
                                 }
                             }
@@ -190,7 +196,6 @@ namespace ChickenShooter.model
                             BulletTimeControl.HasEvents = false;
                             break;
                     }
-
                 }
             }
             this.ProcessInput = false;
@@ -209,6 +214,8 @@ namespace ChickenShooter.model
                 chicken.DeltaTime = dt;
                 chicken.update();
             }
+
+
         }
 
         /**

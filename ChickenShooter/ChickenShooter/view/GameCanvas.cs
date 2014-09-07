@@ -22,6 +22,9 @@ namespace ChickenShooter.view
         private Label hitCountLabel;
         private Label timeLabel;
         private Label fpsLabel;
+        private BitmapImage chickenImage = new BitmapImage(new Uri("..\\images\\chicken.png", UriKind.RelativeOrAbsolute));
+        private BitmapImage bulletImage = new BitmapImage(new Uri("..\\images\\gunshot-clipart-bullet-hole-hi.png", UriKind.RelativeOrAbsolute));
+        private BitmapImage hitsplatImage = new BitmapImage(new Uri("..\\images\\hitsplat.png", UriKind.RelativeOrAbsolute));
 
 
         public GameCanvas(Game game, MainWindow gameWindow)
@@ -111,7 +114,6 @@ namespace ChickenShooter.view
         public void renderSingleChicken(Chicken chicken)
         {
             Image chickenIcon = new Image();
-            BitmapImage chickenImage = new BitmapImage(new Uri("..\\images\\chicken.jpg", UriKind.RelativeOrAbsolute));
             chickenIcon.Source = chickenImage;
             chickenIcon.Width = chicken.Width;
             chickenIcon.Height = chicken.Height;
@@ -120,11 +122,51 @@ namespace ChickenShooter.view
             this.Children.Add(chickenIcon);
         }
 
+        public void renderBullet(Bullet bullet)
+        {
+            Image bulletIcon = new Image();
+            bulletIcon.Source = bulletImage;
+            bulletIcon.Width = bullet.Width;
+            bulletIcon.Height = bullet.Height;
+            Canvas.SetLeft(bulletIcon, bullet.X - bullet.Width / 2);
+            Canvas.SetTop(bulletIcon, bullet.Y - bullet.Height / 2);
+            Canvas.SetZIndex(bulletIcon, -1);
+            this.Children.Add(bulletIcon);
+        }
+
+        public void renderHitsplat(Chicken chicken)
+        {
+            Image hitsplatIcon = new Image();
+            hitsplatIcon.Source = hitsplatImage;
+            hitsplatIcon.Width = chicken.Width;
+            hitsplatIcon.Height = chicken.Height;
+            Canvas.SetLeft(hitsplatIcon, chicken.X);
+            Canvas.SetTop(hitsplatIcon, chicken.Y);
+            Canvas.SetZIndex(hitsplatIcon, 0);
+            this.Children.Add(hitsplatIcon);
+        }
+
         public void renderChickens()
         {
             foreach (Chicken chicken in game.Chickens)
             {
-                renderSingleChicken(chicken);
+                if (chicken.IsAlive)
+                {
+                    renderSingleChicken(chicken);
+                }
+                else
+                {
+                    renderHitsplat(chicken);
+                }
+            }
+
+        }
+
+        public void renderBullets()
+        {
+            foreach (Bullet bullet in game.Bullets)
+            {
+                renderBullet(bullet);
             }
         }
 
@@ -135,6 +177,7 @@ namespace ChickenShooter.view
             {
                 clearCanvas();
                 renderChickens();
+                renderBullets();
             }));
         }
 

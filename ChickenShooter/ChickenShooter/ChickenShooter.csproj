@@ -72,6 +72,7 @@
     <Compile Include="controller\GameController.cs" />
     <Compile Include="controller\ShootController.cs" />
     <Compile Include="helper\Timer.cs" />
+    <Compile Include="model\Bullet.cs" />
     <Compile Include="model\Chicken.cs" />
     <Compile Include="model\Entity.cs" />
     <Compile Include="model\Game.cs" />
@@ -114,6 +115,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\chicken.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\chicken.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\hitsplat.png" />
+    <Content Include="images\bullet.png" />
+    <Resource Include="images\gunshot-clipart-bullet-hole-hi.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

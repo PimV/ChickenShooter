@@ -10,20 +10,20 @@ namespace ChickenShooter.model
     public class Chicken : Entity
     {
 
-        private Random rnd;
-
         private double defaultDx;
         private double defaultDy;
         private double stdMoveSpeed;
         private Boolean slowDownActive;
         private Boolean speedUpActive;
         private double slowDownTime = 1500; //Hang for 1500ms in slowmow
+        private Boolean isAlive = true;
+        public Boolean IsAlive { get { return isAlive; } set { isAlive = value; } }
 
         #region Constructors
         public Chicken()
             : base()
         {
-            rnd = new Random();
+
             this.Height = 50;
             this.Width = 50;
             this.defaultDx = -5;
@@ -41,7 +41,7 @@ namespace ChickenShooter.model
         public Chicken(double x, double y)
             : base(x, y)
         {
-            rnd = new Random();
+
             this.Height = 50;
             this.Width = 50;
             this.defaultDx = -5;
@@ -59,7 +59,7 @@ namespace ChickenShooter.model
         public Chicken(double x, double y, double dx, double dy)
             : base(x, y)
         {
-            rnd = new Random();
+
             this.Height = 50;
             this.Width = 50;
             this.defaultDx = dx;
@@ -77,16 +77,19 @@ namespace ChickenShooter.model
 
         public void update()
         {
-            getNextPosition();
-            if (slowDownActive)
+            if (isAlive)
             {
-                activateSlowDown();
+                getNextPosition();
+                if (slowDownActive)
+                {
+                    activateSlowDown();
+                }
+                if (speedUpActive)
+                {
+                    activateSpeedUp();
+                }
+                moveRandomlyDynamic();
             }
-            if (speedUpActive)
-            {
-                activateSpeedUp();
-            }
-            moveRandomlyDynamic();
         }
 
         #region Movement
@@ -244,6 +247,7 @@ namespace ChickenShooter.model
         {
             if ((x >= X && x < (Width + X)) && (y > Y && y < (Height + Y)))
             {
+                isAlive = false;
                 return true;
             }
             return false;
