@@ -18,12 +18,13 @@ namespace ChickenShooter.model
     public class Game
     {
         #region helpers
-
+        private SoundPlayer player;
         private Boolean running;
         private Boolean gameRunning;
         public Boolean GameRunning { get { return gameRunning; } set { gameRunning = value; } }
         private helper.Timer hqTimer;
         public Boolean Running { get { return running; } set { running = value; } }
+        public SoundPlayer Player { get { return player; } set { player = value; } }
         #endregion
         #region models
         private StatTracker statusTracker;
@@ -113,6 +114,7 @@ namespace ChickenShooter.model
             gameWindow = new MainWindow(this);
             canvas = new GameCanvas(this, gameWindow);
             gameWindow.Show();
+            player = new SoundPlayer();
         }
 
         /**
@@ -137,6 +139,7 @@ namespace ChickenShooter.model
                 double delta = updateLength / OPTIMAL_TIME;
 
                 lastFpsTime += updateLength;
+
                 fps++;
 
                 if (lastFpsTime >= 1000)
@@ -157,6 +160,7 @@ namespace ChickenShooter.model
                 this.renderGame(delta);
                 this.checkGameStatus();
 
+                Thread.Sleep(25);
                 if (lastLoopTime - hqTimer.ElapsedMilliSeconds + OPTIMAL_TIME > 0)
                 {
                     Thread.Sleep(TimeSpan.FromMilliseconds(lastLoopTime - hqTimer.ElapsedMilliSeconds + OPTIMAL_TIME));
@@ -174,55 +178,19 @@ namespace ChickenShooter.model
             {
                 return;
             }
-            ControllerAction ca;
-            SoundPlayer player = new SoundPlayer();
-            while (actionsContainer.Count > 0)
+            ControllerAction action;
+            lock (actionsContainer)
             {
-                actionsContainer.TryDequeue(out ca);
-                if (ca == null)
+                while (actionsContainer.Count > 0)
                 {
-                    MessageBox.Show("SHOULD NOT BE HAPPENING!");
-                    this.ProcessInput = false;
-                    continue;
-                }
-                else
-                {
-
-                    switch (ca.ActionName)
+                    actionsContainer.TryDequeue(out action);
+                    if (action == null)
                     {
-                        case "shoot":
-                            ca = (ShootAction)ca;
-                            bullets.Add(new Bullet(ca.X, ca.Y));
-                            player.SoundLocation = "Sounds\\Small_Gun_Shot.wav";
-                            player.Play();
-
-                            foreach (Chicken chicken in chickens)
-                            {
-                                if (chicken.IsAlive && chicken.isHit(ca.X, ca.Y))
-                                {
-                                    player.SoundLocation = "Sounds\\Blood_Hit.wav";
-
-                                    player.Play();
-                                    chicken.IsAlive = false;
-                                    statusTracker.increaseScore();
-                                    break;
-                                }
-                            }
-                            statusTracker.decreaseBullets();
-                            ShootControl.HasEvents = false;
-                            break;
-                        case "slow motion":
-                            player.SoundLocation = "Sounds\\Flame woosh.wav";
-                            player.Play();
-                            foreach (Chicken chicken in chickens)
-                            {
-                                chicken.slowDown();
-                            }
-                            BulletTimeControl.HasEvents = false;
-                            break;
+                        continue;
                     }
+                    action.execute();
                 }
-            }
+            } 
             this.ProcessInput = false;
         }
 

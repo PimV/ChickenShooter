@@ -34,7 +34,7 @@ namespace ChickenShooter.controller
         {
             if (e.ChangedButton == MouseButton.Right)
             {
-                game.ActionsContainer.Enqueue(new SlowMotionAction());
+                game.ActionsContainer.Enqueue(new SlowMotionAction(this.game));
                 this.hasEvents = true;
                 game.ProcessInput = true;
             }

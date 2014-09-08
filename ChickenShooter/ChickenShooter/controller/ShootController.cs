@@ -41,9 +41,9 @@ namespace ChickenShooter.controller
             if (e.Key == Key.Space)
             {
                 Point p = System.Windows.Input.Mouse.GetPosition(game.Canvas);
-                ShootAction sa = new ShootAction();
-                sa.X = p.X;
-                sa.Y = p.Y;
+                ShootAction sa = new ShootAction(this.game, p.X, p.Y);
+                //sa.X = p.X;
+                //sa.Y = p.Y;
                 game.ActionsContainer.Enqueue(sa);
                 game.ProcessInput = true;
             }
@@ -59,9 +59,9 @@ namespace ChickenShooter.controller
             if (e.ChangedButton == MouseButton.Left)
             {
                 Point p = System.Windows.Input.Mouse.GetPosition(game.Canvas);
-                ShootAction sa = new ShootAction();
-                sa.X = p.X;
-                sa.Y = p.Y;
+                ShootAction sa = new ShootAction(this.game, p.X, p.Y);
+                //sa.X = p.X;
+                //sa.Y = p.Y;
                 game.ActionsContainer.Enqueue(sa);
                 game.ProcessInput = true;
             }

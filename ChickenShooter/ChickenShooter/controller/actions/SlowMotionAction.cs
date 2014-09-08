@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChickenShooter.model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,19 @@ namespace ChickenShooter.controller.actions
 {
     class SlowMotionAction : ControllerAction
     {
-
-        public SlowMotionAction()
+        public SlowMotionAction(Game game)
         {
-            this.ActionName = "slow motion";
+            this.game = game;
         }
 
+        public override void execute()
+        {
+            game.Player.SoundLocation = "Sounds\\Flame woosh.wav";
+            game.Player.Play();
+            foreach (Chicken chicken in game.Chickens)
+            {
+                chicken.slowDown();
+            }
+        }
     }
 }
