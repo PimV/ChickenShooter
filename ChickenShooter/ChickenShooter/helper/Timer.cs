@@ -16,6 +16,11 @@ namespace ChickenShooter.helper
             get { return stopWatch.ElapsedMilliseconds; }
         }
 
+        public long ElapsedTicks
+        {
+            get { return stopWatch.ElapsedTicks; }
+        }
+
         public Timer()
         {
             stopWatch = new Stopwatch();

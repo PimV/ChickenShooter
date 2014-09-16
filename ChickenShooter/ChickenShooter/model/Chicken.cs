@@ -48,7 +48,7 @@ namespace ChickenShooter.model
             this.defaultDy = 3;
             this.dx = this.defaultDx;
             this.dy = this.defaultDy;
-            movingLeft = false;
+            movingLeft = true;
             movingDown = true;
             moveSpeed = 5;
             stdMoveSpeed = moveSpeed;

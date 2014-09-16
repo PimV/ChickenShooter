@@ -93,11 +93,12 @@ namespace ChickenShooter.model
             actionsContainer = new ActionContainer();
             //Entity Models
             chickens = new List<Chicken>();
-            chickens.Add(new Chicken(80, 80));
-            chickens.Add(new Chicken(150, 80));
-            chickens.Add(new Chicken(80, 250));
-            chickens.Add(new Chicken(45, 80));
-            chickens.Add(new Chicken(190, 150));
+            chickens.Add(new Chicken(0, 0));
+            //chickens.Add(new Chicken(80, 80));
+            //chickens.Add(new Chicken(150, 80));
+            //chickens.Add(new Chicken(80, 250));
+            //chickens.Add(new Chicken(45, 80));
+            //chickens.Add(new Chicken(190, 150));
 
             bullets = new List<Bullet>();
 
@@ -133,6 +134,11 @@ namespace ChickenShooter.model
 
             while (this.running)
             {
+                if (hqTimer.ElapsedTicks > 10000000)
+                {
+                    return;
+                }
+
                 long now = hqTimer.ElapsedMilliSeconds;
                 long updateLength = now - lastLoopTime;
                 lastLoopTime = now;
@@ -160,7 +166,7 @@ namespace ChickenShooter.model
                 this.renderGame(delta);
                 this.checkGameStatus();
 
-                Thread.Sleep(25);
+               Thread.Sleep(155);
                 if (lastLoopTime - hqTimer.ElapsedMilliSeconds + OPTIMAL_TIME > 0)
                 {
                     Thread.Sleep(TimeSpan.FromMilliseconds(lastLoopTime - hqTimer.ElapsedMilliSeconds + OPTIMAL_TIME));
