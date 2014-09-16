@@ -1,16 +1,12 @@
-﻿using System;
+﻿using ChickenShooter.Model;
+using System;
 
-namespace ChickenShooter.model
+namespace ChickenShooter.Model
 {
-    public class Chicken : Entity
+    public class Chicken : Entity, IShootable
     {
 
-        private double defaultDx;
-        private double defaultDy;
-        private double stdMoveSpeed;
-        private Boolean slowDownActive;
-        private Boolean speedUpActive;
-        private double slowDownTime = 1500; //Hang for 1500ms in slowmow
+
         private Boolean isAlive = true;
         public Boolean IsAlive { get { return isAlive; } set { isAlive = value; } }
 
@@ -25,6 +21,7 @@ namespace ChickenShooter.model
             this.dy = this.moveSpeed;
             this.stdMoveSpeed = moveSpeed;
             this.slowDownActive = false;
+            this.determineDirection();
         }
 
         public Chicken(double x, double y)
@@ -36,20 +33,21 @@ namespace ChickenShooter.model
             this.dx = this.moveSpeed;
             this.dy = this.moveSpeed;
             this.stdMoveSpeed = moveSpeed;
-            slowDownActive = false;
+            this.slowDownActive = false;
+            this.determineDirection();
         }
 
         public Chicken(double x, double y, double dx, double dy)
             : base(x, y)
         {
-
             this.Height = 50;
             this.Width = 50;
             this.dx = dx;
             this.dy = dy;
-            moveSpeed = 5;
-            stdMoveSpeed = moveSpeed;
-            slowDownActive = false;
+            this.moveSpeed = 5;
+            this.stdMoveSpeed = moveSpeed;
+            this.slowDownActive = false;
+            this.determineDirection();
         }
         #endregion
 
@@ -72,6 +70,8 @@ namespace ChickenShooter.model
         }
 
         #region Movement
+
+
         public void getNextPosition()
         {
 
@@ -175,51 +175,7 @@ namespace ChickenShooter.model
         }
         #endregion
 
-        #region Slow Motion
-        public void slowDown()
-        {
-            if (this.slowDownActive == false && this.speedUpActive == false)
-            {
-                this.slowDownActive = true;
-            }
-        }
 
-        private void activateSlowDown()
-        {
-            if (moveSpeed > stdMoveSpeed / 8)
-            {
-                moveSpeed -= stdMoveSpeed / 50;
-            }
-            else
-            {
-                freezeAcceleration();
-            }
-        }
-
-        private void freezeAcceleration()
-        {
-            slowDownTime -= (deltaTime * 50);
-            if (slowDownTime <= 0)
-            {
-                slowDownTime = 1500; //Freeze for approx 1500 ms
-                speedUpActive = true;
-                slowDownActive = false;
-            }
-        }
-
-        private void activateSpeedUp()
-        {
-            if (moveSpeed < stdMoveSpeed)
-            {
-                moveSpeed += stdMoveSpeed / 50;
-            }
-            else
-            {
-                moveSpeed = stdMoveSpeed;
-                speedUpActive = false;
-            }
-        }
-        #endregion
 
         #region Hit Check
         public Boolean isHit(double x, double y)

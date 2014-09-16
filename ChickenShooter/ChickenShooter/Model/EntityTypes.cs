@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChickenShooter.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,11 @@ namespace ChickenShooter.Model
 {
     public enum EntityTypes
     {
+        [EntityInfoAttribute(typeof(Chicken))]
         Chicken,
-        Duck,
-        Goose,
-        Balloon
+        [EntityInfoAttribute(typeof(Balloon))]
+        Balloon,
+        [EntityInfoAttribute(typeof(Bullet))]
+        Bullet,
     }
 }

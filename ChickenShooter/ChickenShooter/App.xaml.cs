@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Runtime.InteropServices;
 using ChickenShooter.helper;
-using ChickenShooter.model;
+using ChickenShooter.Model;
 using System.Threading;
 
 namespace ChickenShooter

@@ -1,4 +1,4 @@
-﻿using ChickenShooter.model;
+﻿using ChickenShooter.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +18,9 @@ namespace ChickenShooter.controller.actions
         {
             game.Player.SoundLocation = "Sounds\\Flame woosh.wav";
             game.Player.Play();
-            foreach (Chicken chicken in game.Chickens)
+            foreach (Entity e in game.VisibleEntities)
             {
-                chicken.slowDown();
+                e.slowDown();
             }
         }
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChickenShooter.model
+namespace ChickenShooter.Model
 {
     public abstract class Entity
     {
@@ -27,6 +27,12 @@ namespace ChickenShooter.model
         protected double maxSpeed;
         protected double minSpeed;
         protected double stopSpeed;
+
+        protected Boolean slowDownActive;
+        protected Boolean speedUpActive;
+        protected double slowDownTime = 1500; //Hang for 1500ms in slowmow
+
+        protected double stdMoveSpeed;
 
 
 
@@ -102,5 +108,77 @@ namespace ChickenShooter.model
         }
 
         public abstract void update(double dt);
+
+        protected void determineDirection()
+        {
+            if (dx > 0)
+            {
+                this.movingRight = true;
+                this.movingLeft = false;
+            }
+            else if (dx < 0)
+            {
+                this.movingRight = false;
+                this.movingLeft = true;
+            }
+
+            if (dy > 0)
+            {
+                this.movingDown = true;
+                this.movingUp = false;
+            }
+            else if (dy < 0)
+            {
+                this.movingDown = false;
+                this.movingUp = true;
+            }
+
+        }
+
+        #region Slow Motion
+        public void slowDown()
+        {
+            if (this.slowDownActive == false && this.speedUpActive == false)
+            {
+                this.slowDownActive = true;
+            }
+        }
+
+        protected void activateSlowDown()
+        {
+            if (moveSpeed > stdMoveSpeed / 8)
+            {
+                moveSpeed -= stdMoveSpeed / 50;
+            }
+            else
+            {
+                freezeAcceleration();
+            }
+        }
+
+        protected void freezeAcceleration()
+        {
+            slowDownTime -= (deltaTime * 50);
+            if (slowDownTime <= 0)
+            {
+                slowDownTime = 1500; //Freeze for approx 1500 ms
+                speedUpActive = true;
+                slowDownActive = false;
+            }
+        }
+
+        protected void activateSpeedUp()
+        {
+            if (moveSpeed < stdMoveSpeed)
+            {
+                moveSpeed += stdMoveSpeed / 50;
+            }
+            else
+            {
+                moveSpeed = stdMoveSpeed;
+                speedUpActive = false;
+            }
+        }
+        #endregion
     }
 }

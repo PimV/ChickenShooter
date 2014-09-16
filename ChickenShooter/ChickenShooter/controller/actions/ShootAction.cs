@@ -1,4 +1,4 @@
-﻿using ChickenShooter.model;
+﻿using ChickenShooter.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,6 @@ namespace ChickenShooter.controller.actions
 
         public ShootAction(Game game, double x, double y)
         {
-           
             this.game = game;
             this.x = x;
             this.y = y;
@@ -27,20 +26,34 @@ namespace ChickenShooter.controller.actions
         {
             game.Player.SoundLocation = "Sounds\\Small_Gun_Shot.wav";
             game.Player.Play();
-            game.Bullets.Add(new Bullet(X, Y));
+            //game.Bullets.Add(new Bullet(X, Y));
 
-            foreach (Chicken chicken in game.Chickens)
+            game.Bullets.Add(EntityFactory.createBullet(X, Y));
+
+            foreach (IShootable e in game.ShootableEntities)
             {
-                if (chicken.IsAlive && chicken.isHit(X, Y))
+                if (e.IsAlive && e.isHit(X, Y))
                 {
                     game.Player.SoundLocation = "Sounds\\Blood_Hit.wav";
-
                     game.Player.Play();
-                    chicken.IsAlive = false;
+                    e.IsAlive = false;
                     game.StatusTracker.increaseScore();
                     break;
                 }
             }
+
+            //foreach (Chicken chicken in game.DynamicEntities)
+            //{
+            //    if (chicken.IsAlive && chicken.isHit(X, Y))
+            //    {
+            //        game.Player.SoundLocation = "Sounds\\Blood_Hit.wav";
+
+            //        game.Player.Play();
+            //        chicken.IsAlive = false;
+            //        game.StatusTracker.increaseScore();
+            //        break;
+            //    }
+            //}
             game.StatusTracker.decreaseBullets();
         }
 

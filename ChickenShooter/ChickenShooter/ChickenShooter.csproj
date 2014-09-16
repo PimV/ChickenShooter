@@ -71,12 +71,19 @@
     <Compile Include="Controller\BulletTimeController.cs" />
     <Compile Include="Controller\GameController.cs" />
     <Compile Include="Controller\ShootController.cs" />
+    <Compile Include="Helper\Extensions.cs" />
     <Compile Include="Helper\Timer.cs" />
+    <Compile Include="Model\Balloon.cs" />
     <Compile Include="Model\Bullet.cs" />
     <Compile Include="Model\Chicken.cs" />
+    <Compile Include="Model\Containers\VisibleEntities.cs" />
+    <Compile Include="Model\Containers\ShootableEntities.cs" />
     <Compile Include="Model\Entity.cs" />
+    <Compile Include="Model\EntityFactory.cs" />
+    <Compile Include="Model\EntityInfoAttribute.cs" />
+    <Compile Include="Model\EntityTypes.cs" />
     <Compile Include="Model\Game.cs" />
-    <Compile Include="Model\GameState.cs" />
+    <Compile Include="Model\IShootable.cs" />
     <Compile Include="Model\StatTracker.cs" />
     <Compile Include="View\GameCanvas.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
@@ -119,6 +126,7 @@
     <Resource Include="Images\chicken.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\balloon.png" />
     <Content Include="Sounds\Blood_Hit.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

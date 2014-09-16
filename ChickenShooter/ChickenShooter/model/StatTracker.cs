@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChickenShooter.model
+namespace ChickenShooter.Model
 {
     public class StatTracker
     {

@@ -1,6 +1,6 @@
 ﻿using ChickenShooter.controller;
 using ChickenShooter.helper;
-using ChickenShooter.model;
+using ChickenShooter.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace ChickenShooter.Model
 {
-    class MyFactory
+    public interface IShootable
     {
+        Boolean IsAlive { get; set; }
+        Boolean isHit(double x, double y);
+
+
     }
 }

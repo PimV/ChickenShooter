@@ -1,5 +1,5 @@
 ﻿using ChickenShooter.controller;
-using ChickenShooter.model;
+using ChickenShooter.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +26,7 @@ namespace ChickenShooter.view
         private BitmapImage chickenImage = new BitmapImage(new Uri("..\\Images\\chicken.png", UriKind.RelativeOrAbsolute));
         private BitmapImage bulletImage = new BitmapImage(new Uri("..\\Images\\gunshot-clipart-bullet-hole-hi.png", UriKind.RelativeOrAbsolute));
         private BitmapImage hitsplatImage = new BitmapImage(new Uri("..\\Images\\hitsplat.png", UriKind.RelativeOrAbsolute));
+        private BitmapImage balloonImage = new BitmapImage(new Uri("..\\Images\\balloon.png", UriKind.RelativeOrAbsolute));
 
 
         public GameCanvas(Game game, MainWindow gameWindow)
@@ -163,9 +164,22 @@ namespace ChickenShooter.view
             this.Children.Add(hitsplatIcon);
         }
 
+
+        public void renderBalloon(Balloon balloon)
+        {
+            Image balloonIcon = new Image();
+            balloonIcon.Source = balloonImage;
+            balloonIcon.Width = balloon.Width;
+            balloonIcon.Height = balloon.Height;
+            Canvas.SetLeft(balloonIcon, balloon.X);
+            Canvas.SetTop(balloonIcon, balloon.Y);
+            Canvas.SetZIndex(balloonIcon, -1);
+            this.Children.Add(balloonIcon);
+        }
+
         public void renderChickens()
         {
-            foreach (Chicken chicken in game.Chickens)
+            foreach (Chicken chicken in game.VisibleEntities.OfType<Chicken>())
             {
                 if (chicken.IsAlive)
                 {
@@ -176,7 +190,15 @@ namespace ChickenShooter.view
                     renderHitsplat(chicken);
                 }
             }
+        }
 
+
+        public void renderBalloons()
+        {
+            foreach (Balloon balloon in game.VisibleEntities.OfType<Balloon>())
+            {
+                renderBalloon(balloon);
+            }
         }
 
         public void renderBullets()
@@ -194,6 +216,7 @@ namespace ChickenShooter.view
             {
                 clearCanvas();
                 renderChickens();
+                renderBalloons();
                 renderBullets();
             }));
         }
