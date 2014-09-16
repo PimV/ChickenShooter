@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ChickenShooter.model
 {
-    public class Chicken : Entity
+    public class Balloon : Entity
     {
 
         private double defaultDx;
@@ -15,49 +20,27 @@ namespace ChickenShooter.model
         public Boolean IsAlive { get { return isAlive; } set { isAlive = value; } }
 
         #region Constructors
-        public Chicken()
+        public Balloon()
             : base()
         {
-            this.Height = 50;
-            this.Width = 50;
-            this.moveSpeed = 5;
-            this.dx = this.moveSpeed;
-            this.dy = this.moveSpeed;
-            this.stdMoveSpeed = moveSpeed;
-            this.slowDownActive = false;
         }
 
-        public Chicken(double x, double y)
-            : base(x, y)
-        {
-            this.Height = 50;
-            this.Width = 50;
-            this.moveSpeed = 5;
-            this.dx = this.moveSpeed;
-            this.dy = this.moveSpeed;
-            this.stdMoveSpeed = moveSpeed;
-            slowDownActive = false;
-        }
-
-        public Chicken(double x, double y, double dx, double dy)
+        public Balloon(double x, double y)
             : base(x, y)
         {
 
-            this.Height = 50;
-            this.Width = 50;
-            this.dx = dx;
-            this.dy = dy;
-            moveSpeed = 5;
-            stdMoveSpeed = moveSpeed;
-            slowDownActive = false;
+        }
+
+        public Balloon(double x, double y, double dx, double dy)
+            : base(x, y)
+        {
         }
         #endregion
 
-        public override void update(double dt)
+        public void update()
         {
             if (isAlive)
             {
-                this.deltaTime = dt;
                 getNextPosition();
                 if (slowDownActive)
                 {
@@ -74,7 +57,6 @@ namespace ChickenShooter.model
         #region Movement
         public void getNextPosition()
         {
-
             if (movingLeft)
             {
                 dx -= moveSpeed * deltaTime;
@@ -91,27 +73,6 @@ namespace ChickenShooter.model
                 if (dx > moveSpeed)
                 {
                     dx = moveSpeed;
-                }
-            }
-
-            if (movingUp)
-            {
-
-                dy -= moveSpeed * deltaTime;
-
-                if (dy < -moveSpeed)
-                {
-                    dy = -moveSpeed;
-                }
-            }
-            else if (movingDown)
-            {
-
-                dy += moveSpeed * deltaTime;
-
-                if (dy > moveSpeed)
-                {
-                    dy = moveSpeed;
                 }
             }
         }
@@ -142,34 +103,6 @@ namespace ChickenShooter.model
                 else
                 {
                     x += dx * deltaTime;
-                }
-            }
-
-            if (dy > 0)
-            {
-                if (y + (dy * deltaTime) + height > screen_height)
-                {
-                    dy = 0;
-                    movingUp = true;
-                    movingDown = false;
-                }
-                else
-                {
-                    y += dy * deltaTime;
-                }
-            }
-
-            if (dy < 0)
-            {
-                if (y + (dy * deltaTime) < 0)
-                {
-                    dy = 0;
-                    movingUp = false;
-                    movingDown = true;
-                }
-                else
-                {
-                    y += dy * deltaTime;
                 }
             }
         }

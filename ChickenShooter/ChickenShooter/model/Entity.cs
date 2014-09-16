@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChickenShooter.model
 {
-    public class Entity
+    public abstract class Entity
     {
 
         //Position and Vector
@@ -100,5 +100,7 @@ namespace ChickenShooter.model
             this.X = 0;
             this.Y = 0;
         }
+
+        public abstract void update(double dt);
     }
 }

@@ -19,7 +19,12 @@ namespace ChickenShooter.model
             this.moveSpeed = 0;
         }
 
-        
+        public override void update(double dt)
+        {
+            //throw new NotImplementedException();
+        }
+
+
 
     }
 }

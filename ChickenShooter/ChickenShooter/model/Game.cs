@@ -134,10 +134,6 @@ namespace ChickenShooter.model
 
             while (this.running)
             {
-                if (hqTimer.ElapsedTicks > 10000000)
-                {
-                    return;
-                }
 
                 long now = hqTimer.ElapsedMilliSeconds;
                 long updateLength = now - lastLoopTime;
@@ -166,7 +162,7 @@ namespace ChickenShooter.model
                 this.renderGame(delta);
                 this.checkGameStatus();
 
-               Thread.Sleep(155);
+
                 if (lastLoopTime - hqTimer.ElapsedMilliSeconds + OPTIMAL_TIME > 0)
                 {
                     Thread.Sleep(TimeSpan.FromMilliseconds(lastLoopTime - hqTimer.ElapsedMilliSeconds + OPTIMAL_TIME));
@@ -196,7 +192,7 @@ namespace ChickenShooter.model
                     }
                     action.execute();
                 }
-            } 
+            }
             this.ProcessInput = false;
         }
 
@@ -210,8 +206,7 @@ namespace ChickenShooter.model
 
             foreach (Chicken chicken in chickens)
             {
-                chicken.DeltaTime = dt;
-                chicken.update();
+                chicken.update(dt);
             }
 
 
