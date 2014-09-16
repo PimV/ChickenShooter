@@ -1,19 +1,12 @@
 ﻿using ChickenShooter.controller;
 using ChickenShooter.controller.actions;
-using ChickenShooter.helper;
-using ChickenShooter.Model;
 using ChickenShooter.Model.Containers;
 using ChickenShooter.view;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Media;
-using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
 
 namespace ChickenShooter.Model
 {

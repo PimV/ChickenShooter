@@ -1,10 +1,5 @@
-﻿using ChickenShooter.Model;
+﻿using ChickenShooter.Helper;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ChickenShooter.Helper;
 namespace ChickenShooter.Model
 {
     public class EntityFactory

@@ -69,7 +69,6 @@
     <Compile Include="Controller\actions\ShootAction.cs" />
     <Compile Include="Controller\actions\SlowMotionAction.cs" />
     <Compile Include="Controller\BulletTimeController.cs" />
-    <Compile Include="Controller\GameController.cs" />
     <Compile Include="Controller\ShootController.cs" />
     <Compile Include="Helper\Extensions.cs" />
     <Compile Include="Helper\Timer.cs" />

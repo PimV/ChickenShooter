@@ -1,5 +1,4 @@
-﻿using ChickenShooter.Model;
-using System;
+﻿using System;
 
 namespace ChickenShooter.Model
 {
