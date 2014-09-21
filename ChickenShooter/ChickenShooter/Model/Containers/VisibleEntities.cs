@@ -2,7 +2,7 @@
 
 namespace ChickenShooter.Model.Containers
 {
-    public class VisibleEntities : List<Entity>
+    public class VisibleEntities : EntityContainer
     {
     }
 }

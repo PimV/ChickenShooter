@@ -175,7 +175,7 @@ namespace ChickenShooter.view
 
         public void renderChickens()
         {
-            foreach (Chicken chicken in game.VisibleEntities.OfType<Chicken>())
+            foreach (Chicken chicken in game.MainContainer["visibles"].OfType<Chicken>())
             {
                 if (chicken.IsAlive)
                 {
@@ -191,7 +191,7 @@ namespace ChickenShooter.view
 
         public void renderBalloons()
         {
-            foreach (Balloon balloon in game.VisibleEntities.OfType<Balloon>())
+            foreach (Balloon balloon in game.MainContainer["visibles"].OfType<Balloon>())
             {
                 renderBalloon(balloon);
             }

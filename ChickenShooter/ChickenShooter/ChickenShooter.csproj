@@ -75,6 +75,8 @@
     <Compile Include="Model\Balloon.cs" />
     <Compile Include="Model\Bullet.cs" />
     <Compile Include="Model\Chicken.cs" />
+    <Compile Include="Model\Containers\EntityContainer.cs" />
+    <Compile Include="Model\Containers\MainContainer.cs" />
     <Compile Include="Model\Containers\VisibleEntities.cs" />
     <Compile Include="Model\Containers\ShootableEntities.cs" />
     <Compile Include="Model\Entity.cs" />

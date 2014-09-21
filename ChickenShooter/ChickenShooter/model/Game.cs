@@ -24,8 +24,9 @@ namespace ChickenShooter.Model
         #region models
         private StatTracker statusTracker;
         private List<Chicken> chickens;
-        public VisibleEntities VisibleEntities { get; set; }
-        public ShootableEntities ShootableEntities { get; set; }
+        //public VisibleEntities VisibleEntities { get; set; }
+        //public ShootableEntities ShootableEntities { get; set; }
+        public MainContainer MainContainer { get; set; }
         private List<Bullet> bullets;
         public StatTracker StatusTracker { get { return statusTracker; } set { statusTracker = value; } }
         public List<Chicken> Chickens { get { return chickens; } set { chickens = value; } }
@@ -93,22 +94,25 @@ namespace ChickenShooter.Model
             Entity c1 = EntityFactory.createEntity(EntityTypes.Chicken);
             Entity b1 = EntityFactory.createEntity(EntityTypes.Balloon);
 
-            //Create Entity Containers            
-            ShootableEntities = new ShootableEntities();
-            VisibleEntities = new VisibleEntities();
+            //Create Entity Containers         
+            MainContainer = new MainContainer();
+            MainContainer["shootables"] = new ShootableEntities();
+            MainContainer["visibles"] = new VisibleEntities();
+            //ShootableEntities = new ShootableEntities();
+            //VisibleEntities = new VisibleEntities();
 
             //Fill Entity Containers
-            VisibleEntities.Add(c1);
-            VisibleEntities.Add(b1);
+            MainContainer["visibles"].Add(c1);
+            MainContainer["visibles"].Add(b1);
 
-            ShootableEntities.Add(c1);
+            MainContainer["shootables"].Add(c1);
 
             bullets = new List<Bullet>();
 
             //Game Status
             statusTracker = new StatTracker();
             //statusTracker.MAX_SCORE = chickens.Count;
-            statusTracker.MAX_SCORE = VisibleEntities.OfType<Chicken>().ToList().Count;
+            statusTracker.MAX_SCORE = MainContainer["visibles"].OfType<Chicken>().ToList().Count;
             //Timer
             hqTimer = new helper.Timer();
         }
@@ -206,7 +210,7 @@ namespace ChickenShooter.Model
         {
             statusTracker.GameTime = hqTimer.ElapsedMilliSeconds;
 
-            foreach (Entity e in VisibleEntities)
+            foreach (Entity e in MainContainer["visibles"])
             {
                 e.update(dt);
             }

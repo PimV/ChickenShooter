@@ -13,7 +13,7 @@ namespace ChickenShooter.controller.actions
         {
             game.Player.SoundLocation = "Sounds\\Flame woosh.wav";
             game.Player.Play();
-            foreach (Entity e in game.VisibleEntities)
+            foreach (Entity e in game.MainContainer["visibles"])
             {
                 e.slowDown();
             }

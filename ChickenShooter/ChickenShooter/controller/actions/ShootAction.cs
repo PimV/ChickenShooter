@@ -25,7 +25,7 @@ namespace ChickenShooter.controller.actions
 
             game.Bullets.Add(EntityFactory.createBullet(X, Y));
 
-            foreach (IShootable e in game.ShootableEntities)
+            foreach (IShootable e in game.MainContainer["shootables"])
             {
                 if (e.IsAlive && e.isHit(X, Y))
                 {
