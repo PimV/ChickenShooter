@@ -19,6 +19,9 @@ namespace ChickenShooter.Model
             this.stdMoveSpeed = moveSpeed;
             this.slowDownActive = false;
             this.determineDirection();
+            this.IsMovable = true;
+            this.IsShootable = false;
+            //this.IsVisible = true;
         }
 
         public Balloon(double x, double y)
@@ -33,6 +36,9 @@ namespace ChickenShooter.Model
             this.stdMoveSpeed = moveSpeed;
             this.slowDownActive = false;
             this.determineDirection();
+            this.IsMovable = true;
+            this.IsShootable = false;
+            //this.IsVisible = true;
         }
 
         public Balloon(double x, double y, double dx, double dy)
@@ -47,6 +53,9 @@ namespace ChickenShooter.Model
             this.stdMoveSpeed = moveSpeed;
             this.slowDownActive = false;
             this.determineDirection();
+            this.IsMovable = true;
+            this.IsShootable = false;
+            //this.IsVisible = true;
         }
         #endregion
 

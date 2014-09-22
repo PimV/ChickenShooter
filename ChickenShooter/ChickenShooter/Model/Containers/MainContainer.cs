@@ -10,12 +10,31 @@ namespace ChickenShooter.Model.Containers
     {
         public void addEntity(Entity e)
         {
-            foreach (EntityContainer container in this.Values)
+            if (e.IsMovable)
             {
-                if (!container.Contains(e))
+                if (this["movable"].Contains(e))
                 {
-                    container.Add(e);
+                    this["movable"].Add(e);
                 }
+                //Add to movable container
+            }
+
+            if (e.IsShootable)
+            {
+                if (this["shootable"].Contains(e))
+                {
+                    this["shootable"].Add(e);
+                }
+                //Add to shootable container
+            }
+
+            if (e.IsVisible)
+            {
+                if (this["visible"].Contains(e))
+                {
+                    this["visible"].Add(e);
+                }
+                //Add to visible container
             }
         }
 

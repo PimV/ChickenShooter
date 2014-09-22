@@ -21,6 +21,9 @@ namespace ChickenShooter.Model
             this.stdMoveSpeed = moveSpeed;
             this.slowDownActive = false;
             this.determineDirection();
+            this.IsMovable = true;
+            this.IsShootable = true;
+            //this.IsVisible = true;
         }
 
         public Chicken(double x, double y)
@@ -34,6 +37,9 @@ namespace ChickenShooter.Model
             this.stdMoveSpeed = moveSpeed;
             this.slowDownActive = false;
             this.determineDirection();
+            this.IsMovable = true;
+            this.IsShootable = true;
+            //this.IsVisible = true;
         }
 
         public Chicken(double x, double y, double dx, double dy)
@@ -47,6 +53,9 @@ namespace ChickenShooter.Model
             this.stdMoveSpeed = moveSpeed;
             this.slowDownActive = false;
             this.determineDirection();
+            this.IsMovable = true;
+            this.IsShootable = true;
+            //this.IsVisible = true;
         }
         #endregion
 

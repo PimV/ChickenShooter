@@ -37,6 +37,11 @@ namespace ChickenShooter.Model
         protected int screen_width = 500;
         protected int screen_height = 300;
 
+
+        public Boolean IsMovable { get; set; }
+        public Boolean IsVisible { get; set; }
+        public Boolean IsShootable { get; set; }
+
         public double DeltaTime { get { return deltaTime; } set { deltaTime = value; } }
 
         public double Dx
