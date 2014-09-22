@@ -1,4 +1,5 @@
 ﻿using ChickenShooter.Model;
+using ChickenShooter.Model.Entities;
 
 namespace ChickenShooter.controller.actions
 {
@@ -13,7 +14,7 @@ namespace ChickenShooter.controller.actions
         {
             game.Player.SoundLocation = "Sounds\\Flame woosh.wav";
             game.Player.Play();
-            foreach (Entity e in game.MainContainer["visibles"])
+            foreach (Entity e in game.MainContainer[Behaviour.Visible])
             {
                 e.slowDown();
             }

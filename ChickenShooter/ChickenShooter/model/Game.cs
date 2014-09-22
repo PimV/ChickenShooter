@@ -1,6 +1,7 @@
 ﻿using ChickenShooter.controller;
 using ChickenShooter.controller.actions;
 using ChickenShooter.Model.Containers;
+using ChickenShooter.Model.Entities;
 using ChickenShooter.view;
 using System;
 using System.Collections.Generic;
@@ -96,23 +97,25 @@ namespace ChickenShooter.Model
 
             //Create Entity Containers         
             MainContainer = new MainContainer();
-            MainContainer["shootables"] = new ShootableEntities();
-            MainContainer["visibles"] = new VisibleEntities();
+            MainContainer.addEntity(c1);
+            MainContainer.addEntity(b1);
+            //MainContainer["shootables"] = new ShootableEntities();
+            //MainContainer["visibles"] = new VisibleEntities();
             //ShootableEntities = new ShootableEntities();
             //VisibleEntities = new VisibleEntities();
 
             //Fill Entity Containers
-            MainContainer["visibles"].Add(c1);
-            MainContainer["visibles"].Add(b1);
+            //MainContainer["visibles"].Add(c1);
+            //MainContainer["visibles"].Add(b1);
 
-            MainContainer["shootables"].Add(c1);
+            //MainContainer["shootables"].Add(c1);
 
             bullets = new List<Bullet>();
 
             //Game Status
             statusTracker = new StatTracker();
             //statusTracker.MAX_SCORE = chickens.Count;
-            statusTracker.MAX_SCORE = MainContainer["visibles"].OfType<Chicken>().ToList().Count;
+            statusTracker.MAX_SCORE = MainContainer[Behaviour.Shootable].OfType<Chicken>().ToList().Count;
             //Timer
             hqTimer = new helper.Timer();
         }
@@ -210,10 +213,11 @@ namespace ChickenShooter.Model
         {
             statusTracker.GameTime = hqTimer.ElapsedMilliSeconds;
 
-            foreach (Entity e in MainContainer["visibles"])
-            {
-                e.update(dt);
-            }
+            MainContainer.update(dt);
+            //foreach (Entity e in MainContainer["visibles"])
+            //{
+            //    e.update(dt);
+            //}
         }
 
         /**

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChickenShooter.Model
+namespace ChickenShooter.Model.Entities
 {
     public class EntityInfoAttribute : Attribute
     {

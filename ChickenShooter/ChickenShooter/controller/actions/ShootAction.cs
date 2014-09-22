@@ -1,4 +1,5 @@
 ﻿using ChickenShooter.Model;
+using ChickenShooter.Model.Entities;
 
 namespace ChickenShooter.controller.actions
 {
@@ -21,11 +22,12 @@ namespace ChickenShooter.controller.actions
         {
             game.Player.SoundLocation = "Sounds\\Small_Gun_Shot.wav";
             game.Player.Play();
-            //game.Bullets.Add(new Bullet(X, Y));
 
             game.Bullets.Add(EntityFactory.createBullet(X, Y));
 
-            foreach (IShootable e in game.MainContainer["shootables"])
+            //game.MainContainer[Behaviour.Shootable].shoot();
+            
+            foreach (IShootable e in game.MainContainer[Behaviour.Shootable])
             {
                 if (e.IsAlive && e.isHit(X, Y))
                 {
@@ -36,19 +38,6 @@ namespace ChickenShooter.controller.actions
                     break;
                 }
             }
-
-            //foreach (Chicken chicken in game.DynamicEntities)
-            //{
-            //    if (chicken.IsAlive && chicken.isHit(X, Y))
-            //    {
-            //        game.Player.SoundLocation = "Sounds\\Blood_Hit.wav";
-
-            //        game.Player.Play();
-            //        chicken.IsAlive = false;
-            //        game.StatusTracker.increaseScore();
-            //        break;
-            //    }
-            //}
             game.StatusTracker.decreaseBullets();
         }
 

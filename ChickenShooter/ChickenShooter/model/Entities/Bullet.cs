@@ -1,5 +1,5 @@
 ﻿
-namespace ChickenShooter.Model
+namespace ChickenShooter.Model.Entities
 {
     public class Bullet : Entity
     {

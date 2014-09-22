@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChickenShooter.Model
+namespace ChickenShooter.Model.Entities
 {
     public class Chicken : Entity, IShootable
     {
@@ -13,6 +13,9 @@ namespace ChickenShooter.Model
         public Chicken()
             : base()
         {
+            this.BehaviourList.Add(Behaviour.Movable);
+            this.BehaviourList.Add(Behaviour.Shootable);
+            this.BehaviourList.Add(Behaviour.Visible);
             this.Height = 50;
             this.Width = 50;
             this.moveSpeed = 5;
@@ -21,14 +24,17 @@ namespace ChickenShooter.Model
             this.stdMoveSpeed = moveSpeed;
             this.slowDownActive = false;
             this.determineDirection();
-            this.IsMovable = true;
-            this.IsShootable = true;
+            //this.IsMovable = true;
+            //this.IsShootable = true;
             //this.IsVisible = true;
         }
 
         public Chicken(double x, double y)
             : base(x, y)
         {
+            this.BehaviourList.Add(Behaviour.Movable);
+            this.BehaviourList.Add(Behaviour.Shootable);
+            this.BehaviourList.Add(Behaviour.Visible);
             this.Height = 50;
             this.Width = 50;
             this.moveSpeed = 5;
@@ -37,14 +43,17 @@ namespace ChickenShooter.Model
             this.stdMoveSpeed = moveSpeed;
             this.slowDownActive = false;
             this.determineDirection();
-            this.IsMovable = true;
-            this.IsShootable = true;
+            //this.IsMovable = true;
+            //this.IsShootable = true;
             //this.IsVisible = true;
         }
 
         public Chicken(double x, double y, double dx, double dy)
             : base(x, y)
         {
+            this.BehaviourList.Add(Behaviour.Movable);
+            this.BehaviourList.Add(Behaviour.Shootable);
+            this.BehaviourList.Add(Behaviour.Visible);
             this.Height = 50;
             this.Width = 50;
             this.dx = dx;
@@ -55,7 +64,7 @@ namespace ChickenShooter.Model
             this.determineDirection();
             this.IsMovable = true;
             this.IsShootable = true;
-            //this.IsVisible = true;
+            this.IsVisible = true;
         }
         #endregion
 
@@ -63,6 +72,7 @@ namespace ChickenShooter.Model
         {
             if (isAlive)
             {
+                
                 this.deltaTime = dt;
                 getNextPosition();
                 if (slowDownActive)

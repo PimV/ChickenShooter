@@ -3,49 +3,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using ChickenShooter.Model.Entities;
 namespace ChickenShooter.Model.Containers
 {
-    public class MainContainer : Dictionary<String, EntityContainer>
+    public class MainContainer : Dictionary<Behaviour, EntityContainer>
     {
+        public MainContainer()
+        {
+            foreach (Behaviour behaviour in Enum.GetValues(typeof(Behaviour)))
+            {
+                switch (behaviour.ToString())
+                {
+                    case "Movable":
+                        this[behaviour] = new MovableContainer();
+                        break;
+                    case "Shootable":
+                        this[behaviour] = new ShootableContainer();
+                        break;
+                    case "Destroyable":
+                        this[behaviour] = new DestroyableContainer();
+                        break;
+                    case "Visible":
+                        this[behaviour] = new VisibleContainer();
+                        break;
+                }
+            }
+
+        }
+
         public void addEntity(Entity e)
         {
-            if (e.IsMovable)
+            foreach (Behaviour b in e.BehaviourList)
             {
-                if (this["movable"].Contains(e))
-                {
-                    this["movable"].Add(e);
-                }
-                //Add to movable container
-            }
-
-            if (e.IsShootable)
-            {
-                if (this["shootable"].Contains(e))
-                {
-                    this["shootable"].Add(e);
-                }
-                //Add to shootable container
-            }
-
-            if (e.IsVisible)
-            {
-                if (this["visible"].Contains(e))
-                {
-                    this["visible"].Add(e);
-                }
-                //Add to visible container
+                this[b].Add(e);
             }
         }
 
         public void removeEntity(Entity e)
         {
-            foreach (EntityContainer container in this.Values)
+            foreach (Behaviour b in e.BehaviourList)
             {
-                if (container.Contains(e))
+                if (this[b].Contains(e))
                 {
-                    container.Remove(e);
+                    this[b].Remove(e);
                 }
+                this[b].Add(e);
+            }
+        }
+
+        public void update(double dt)
+        {
+            foreach (EntityContainer ec in this.Values)
+            {
+                ec.update(dt);
             }
         }
 

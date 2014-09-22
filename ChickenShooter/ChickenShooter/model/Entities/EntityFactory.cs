@@ -1,6 +1,6 @@
 ﻿using ChickenShooter.Helper;
 using System;
-namespace ChickenShooter.Model
+namespace ChickenShooter.Model.Entities
 {
     public class EntityFactory
     {

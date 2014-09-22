@@ -1,5 +1,6 @@
 ﻿using ChickenShooter.controller;
 using ChickenShooter.Model;
+using ChickenShooter.Model.Entities;
 using System;
 using System.Linq;
 using System.Threading;
@@ -175,7 +176,7 @@ namespace ChickenShooter.view
 
         public void renderChickens()
         {
-            foreach (Chicken chicken in game.MainContainer["visibles"].OfType<Chicken>())
+            foreach (Chicken chicken in game.MainContainer[Behaviour.Visible].OfType<Chicken>())
             {
                 if (chicken.IsAlive)
                 {
@@ -191,7 +192,7 @@ namespace ChickenShooter.view
 
         public void renderBalloons()
         {
-            foreach (Balloon balloon in game.MainContainer["visibles"].OfType<Balloon>())
+            foreach (Balloon balloon in game.MainContainer[Behaviour.Visible].OfType<Balloon>())
             {
                 renderBalloon(balloon);
             }

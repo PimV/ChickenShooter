@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChickenShooter.Model
+namespace ChickenShooter.Model.Entities
 {
     public class Balloon : Entity
     {
@@ -11,6 +11,8 @@ namespace ChickenShooter.Model
         public Balloon()
             : base()
         {
+            this.BehaviourList.Add(Behaviour.Movable);
+            this.BehaviourList.Add(Behaviour.Visible);
             this.Height = 50;
             this.Width = 50;
             this.y = 40;
@@ -27,6 +29,8 @@ namespace ChickenShooter.Model
         public Balloon(double x, double y)
             : base(x, y)
         {
+            this.BehaviourList.Add(Behaviour.Movable);
+            this.BehaviourList.Add(Behaviour.Visible);
             this.Height = 50;
             this.Width = 50;
             this.y = 40;
@@ -44,6 +48,8 @@ namespace ChickenShooter.Model
         public Balloon(double x, double y, double dx, double dy)
             : base(x, y)
         {
+            this.BehaviourList.Add(Behaviour.Movable);
+            this.BehaviourList.Add(Behaviour.Visible);
             this.Height = 50;
             this.Width = 50;
             this.y = 40;

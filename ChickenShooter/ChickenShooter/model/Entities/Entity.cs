@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace ChickenShooter.Model
+namespace ChickenShooter.Model.Entities
 {
     public abstract class Entity
     {
@@ -30,6 +31,7 @@ namespace ChickenShooter.Model
 
         protected double stdMoveSpeed;
 
+        public List<Behaviour> BehaviourList { get; set; }
 
 
         protected double deltaTime;
@@ -98,12 +100,14 @@ namespace ChickenShooter.Model
 
         public Entity(double x, double y)
         {
+            this.BehaviourList = new List<Behaviour>();
             this.X = x;
             this.Y = y;
         }
 
         public Entity()
         {
+            this.BehaviourList = new List<Behaviour>();
             this.X = 0;
             this.Y = 0;
         }
