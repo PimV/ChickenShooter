@@ -85,9 +85,15 @@
     <Compile Include="Model\Entities\Entity.cs" />
     <Compile Include="Model\Entities\EntityFactory.cs" />
     <Compile Include="Model\Entities\EntityInfoAttribute.cs" />
-    <Compile Include="Model\Entities\EntityTypes.cs" />
+    <Compile Include="Model\Entities\EntityType.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\Entities\IShootable.cs" />
+    <Compile Include="Model\GameState\GameState.cs" />
+    <Compile Include="Model\GameState\GameStateFactory.cs" />
+    <Compile Include="Model\GameState\GameStateInfoAttribute.cs" />
+    <Compile Include="Model\GameState\GameStateManager.cs" />
+    <Compile Include="Model\GameState\GameStateType.cs" />
+    <Compile Include="Model\GameState\Level1State.cs" />
     <Compile Include="Model\StatTracker.cs" />
     <Compile Include="View\GameCanvas.cs" />
     <Compile Include="View\MainWindow.xaml.cs">

@@ -20,6 +20,13 @@ namespace ChickenShooter
             this.Closing += closeGameScreen;
         }
 
+        public MainWindow()
+        {
+            InitializeComponent();
+            //this.game = game;
+            //this.Closing += closeGameScreen;
+        }
+
         public void closeGameScreen(object sender, EventArgs e)
         {
             game.Running = false;

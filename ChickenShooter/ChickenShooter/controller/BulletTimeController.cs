@@ -17,8 +17,8 @@ namespace ChickenShooter.controller
         {
             this.game = game;
             this.gameWindow = gameWindow;
-            this.game.BulletTimeControl = this;
-            this.addMouseListener();
+            //this.game.BulletTimeControl = this;
+            //this.addMouseListener();
         }
 
         public void addMouseListener()

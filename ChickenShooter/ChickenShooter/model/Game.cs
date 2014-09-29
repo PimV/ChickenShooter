@@ -2,6 +2,7 @@
 using ChickenShooter.controller.actions;
 using ChickenShooter.Model.Containers;
 using ChickenShooter.Model.Entities;
+using ChickenShooter.Model.GameState;
 using ChickenShooter.view;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace ChickenShooter.Model
         public StatTracker StatusTracker { get { return statusTracker; } set { statusTracker = value; } }
         public List<Chicken> Chickens { get { return chickens; } set { chickens = value; } }
         public List<Bullet> Bullets { get { return bullets; } set { bullets = value; } }
+        public GameStateManager gsm { get; set; }
         #endregion
         #region views
         private MainWindow gameWindow;
@@ -88,44 +90,37 @@ namespace ChickenShooter.Model
 
         public void initModels()
         {
+            //Create Game State Manager
+            gsm = new GameStateManager();
+
             //Create Action Container
             actionsContainer = new ActionContainer();
 
             //Create Entities
-            Entity c1 = EntityFactory.createEntity(EntityTypes.Chicken);
-            Entity b1 = EntityFactory.createEntity(EntityTypes.Balloon);
+            //Entity c1 = EntityFactory.createEntity(EntityType.Chicken);
+            //Entity b1 = EntityFactory.createEntity(EntityType.Balloon);
 
             //Create Entity Containers         
             MainContainer = new MainContainer();
-            MainContainer.addEntity(c1);
-            MainContainer.addEntity(b1);
-            //MainContainer["shootables"] = new ShootableEntities();
-            //MainContainer["visibles"] = new VisibleEntities();
-            //ShootableEntities = new ShootableEntities();
-            //VisibleEntities = new VisibleEntities();
-
-            //Fill Entity Containers
-            //MainContainer["visibles"].Add(c1);
-            //MainContainer["visibles"].Add(b1);
-
-            //MainContainer["shootables"].Add(c1);
+            //MainContainer.addEntity(c1);
+            //MainContainer.addEntity(b1);
 
             bullets = new List<Bullet>();
 
             //Game Status
             statusTracker = new StatTracker();
             //statusTracker.MAX_SCORE = chickens.Count;
-            statusTracker.MAX_SCORE = MainContainer[Behaviour.Shootable].OfType<Chicken>().ToList().Count;
+            // statusTracker.MAX_SCORE = MainContainer[Behaviour.Shootable].OfType<Chicken>().ToList().Count;
             //Timer
             hqTimer = new helper.Timer();
         }
 
         public void initView()
         {
-            gameWindow = new MainWindow(this);
-            canvas = new GameCanvas(this, gameWindow);
-            gameWindow.Show();
-            player = new SoundPlayer();
+            //gameWindow = new MainWindow(this);
+            //canvas = new GameCanvas(this, gameWindow);
+            //gameWindow.Show();
+            //player = new SoundPlayer();
         }
 
         /**
@@ -160,16 +155,21 @@ namespace ChickenShooter.Model
                     fps = 0;
                 }
 
+                gsm.update(delta);
+                gsm.handleInput();
+                gsm.renderGame();
 
-                if (statusTracker.GameRunning)
-                {
-                    this.gameLogic(delta);
-                    this.handleInput();
 
-                }
 
-                this.renderGame(delta);
-                this.checkGameStatus();
+                //if (statusTracker.GameRunning)
+                //{
+                //    // this.gameLogic(delta);
+                //    //this.handleInput();
+
+                //}
+
+               // this.renderGame(delta);
+               // this.checkGameStatus();
 
 
                 if (lastLoopTime - hqTimer.ElapsedMilliSeconds + OPTIMAL_TIME > 0)
@@ -225,7 +225,7 @@ namespace ChickenShooter.Model
          */
         public void renderGame(double dt)
         {
-            this.canvas.update();
+            //this.canvas.update();
         }
 
         /**

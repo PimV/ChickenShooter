@@ -1,7 +1,7 @@
 ﻿
 namespace ChickenShooter.Model.Entities
 {
-    public enum EntityTypes
+    public enum EntityType
     {
         [EntityInfoAttribute(typeof(Chicken))]
         Chicken,

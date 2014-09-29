@@ -5,7 +5,7 @@ namespace ChickenShooter.Model.Entities
     public class EntityFactory
     {
 
-        public static Entity createEntity(EntityTypes entity)
+        public static Entity createEntity(EntityType entity)
         {
             var entityAttribute = entity.GetAttribute<EntityInfoAttribute>();
             if (entityAttribute == null)
@@ -19,7 +19,7 @@ namespace ChickenShooter.Model.Entities
 
         public static Bullet createBullet(double x, double y)
         {
-            var entityAttribute = EntityTypes.Bullet.GetAttribute<EntityInfoAttribute>();
+            var entityAttribute = EntityType.Bullet.GetAttribute<EntityInfoAttribute>();
             if (entityAttribute == null)
             {
                 return null;

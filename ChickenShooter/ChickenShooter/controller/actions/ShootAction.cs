@@ -1,5 +1,7 @@
 ﻿using ChickenShooter.Model;
 using ChickenShooter.Model.Entities;
+using ChickenShooter.Model.GameState;
+using System;
 
 namespace ChickenShooter.controller.actions
 {
@@ -18,27 +20,37 @@ namespace ChickenShooter.controller.actions
             this.y = y;
         }
 
+        public ShootAction(GameStateManager gsm, double x, double y)
+        {
+            this.GSM = gsm;
+            this.x = x;
+            this.y = y;
+        }
+
+
         public override void execute()
         {
-            game.Player.SoundLocation = "Sounds\\Small_Gun_Shot.wav";
-            game.Player.Play();
+            this.GSM.Player.SoundLocation = "Sounds\\Small_Gun_Shot.wav";
+            this.GSM.Player.Play();
 
-            game.Bullets.Add(EntityFactory.createBullet(X, Y));
+            //game.Bullets.Add(EntityFactory.createBullet(X, Y));
 
             //game.MainContainer[Behaviour.Shootable].shoot();
-            
-            foreach (IShootable e in game.MainContainer[Behaviour.Shootable])
+
+            foreach (IShootable e in this.GSM.CurrentState.MainContainer[Behaviour.Shootable])
             {
+                
                 if (e.IsAlive && e.isHit(X, Y))
                 {
-                    game.Player.SoundLocation = "Sounds\\Blood_Hit.wav";
-                    game.Player.Play();
+                    Console.WriteLine("HIT");
+                    this.GSM.Player.SoundLocation = "Sounds\\Blood_Hit.wav";
+                    this.GSM.Player.Play();
                     e.IsAlive = false;
-                    game.StatusTracker.increaseScore();
+                    //game.StatusTracker.increaseScore();
                     break;
                 }
             }
-            game.StatusTracker.decreaseBullets();
+            // game.StatusTracker.decreaseBullets();
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using ChickenShooter.Model;
+using ChickenShooter.Model.GameState;
 
 namespace ChickenShooter.controller.actions
 {
@@ -6,6 +7,8 @@ namespace ChickenShooter.controller.actions
     {
 
         protected Game game;
+
+        protected GameStateManager GSM { get; set; }
 
         public abstract void execute();
 

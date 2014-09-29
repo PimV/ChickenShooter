@@ -1,6 +1,8 @@
 ﻿using ChickenShooter.controller;
 using ChickenShooter.Model;
+using ChickenShooter.Model.Containers;
 using ChickenShooter.Model.Entities;
+using ChickenShooter.Model.GameState;
 using System;
 using System.Linq;
 using System.Threading;
@@ -51,30 +53,59 @@ namespace ChickenShooter.view
 
         }
 
-        public void createInfoLabels()
+        public GameCanvas(GameStateManager gsm, MainWindow gameWindow)
+        {
+            this.GSM = gsm;
+            this.gameWindow = gameWindow;
+
+            this.Name = "paintCanvas";
+            this.Background = new SolidColorBrush(Colors.White);
+            this.SetValue(Grid.ColumnProperty, 1);
+            this.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+            this.MaxWidth = 500;
+            this.MaxHeight = 300;
+            this.SetValue(Grid.ColumnSpanProperty, 2);
+
+            this.createInfoLabels();
+
+            gameWindow.mainGrid.Children.Add(this);
+
+            Thread t = new Thread(makeController);
+            t.Name = "Controller Thread";
+            t.Start();
+        }
+
+        public void setBulletLabel(int bullets)
         {
             if (bulletCountLabel == null)
             {
                 bulletCountLabel = new Label();
             }
-            bulletCountLabel.Content = "Bullets: " + game.StatusTracker.Bullets;
+            bulletCountLabel.Content = "Bullets: " + bullets;
             bulletCountLabel.Name = "bulletCountLabel";
             bulletCountLabel.Width = 114;
             Canvas.SetZIndex(bulletCountLabel, 100);
             Canvas.SetTop(bulletCountLabel, 248);
             this.Children.Add(bulletCountLabel);
+        }
 
+        public void setHitCountLabel(int hitCount)
+        {
             if (hitCountLabel == null)
             {
                 hitCountLabel = new Label();
             }
 
             hitCountLabel.Name = "hitCountLabel";
-            hitCountLabel.Content = "Hits: " + game.StatusTracker.Score;
+            hitCountLabel.Content = "Hits: " + hitCount;
             Canvas.SetZIndex(hitCountLabel, 100);
             Canvas.SetTop(hitCountLabel, 274);
             hitCountLabel.Width = 114;
             this.Children.Add(hitCountLabel);
+        }
+
+        public void setTimeLabel(double time)
+        {
 
             if (timeLabel == null)
             {
@@ -82,28 +113,35 @@ namespace ChickenShooter.view
             }
 
             timeLabel.Name = "timeLabel";
-            timeLabel.Content = "Time: " + game.StatusTracker.GameTime;
+            timeLabel.Content = "Time: " + time;
             Canvas.SetZIndex(timeLabel, 100);
             Canvas.SetTop(timeLabel, -1);
             this.Children.Add(timeLabel);
+        }
 
+        public void setFpsLabel(double fps)
+        {
             if (fpsLabel == null)
             {
                 fpsLabel = new Label();
             }
             fpsLabel.Name = "fpsLabel";
-            this.fpsLabel.Content = "FPS: " + game.StatusTracker.RealTimeFps;
+            this.fpsLabel.Content = "FPS: " + fps;
             Canvas.SetLeft(fpsLabel, 421);
             Canvas.SetZIndex(fpsLabel, 100);
             Canvas.SetTop(fpsLabel, -1);
             this.Children.Add(fpsLabel);
+        }
+
+        public void setStatusLabel(String statusMsg)
+        {
 
             if (statusLabel == null)
             {
                 statusLabel = new Label();
             }
             statusLabel.Name = "statusLabel";
-            statusLabel.Content = game.StatusTracker.StatusMsg;
+            statusLabel.Content = statusMsg;
             statusLabel.Width = this.MaxWidth;
             statusLabel.FontSize = 18;
             statusLabel.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
@@ -111,16 +149,32 @@ namespace ChickenShooter.view
             Canvas.SetTop(statusLabel, Math.Round(this.MaxHeight / 2) - statusLabel.Height);
             Canvas.SetZIndex(statusLabel, 150);
             this.Children.Add(statusLabel);
+        }
 
-
+        public void createInfoLabels()
+        {
+            if (game != null)
+            {
+                setBulletLabel(game.StatusTracker.Bullets);
+                setHitCountLabel(game.StatusTracker.Score);
+                setTimeLabel(game.StatusTracker.GameTime);
+                setFpsLabel(game.StatusTracker.RealTimeFps);
+                setStatusLabel(game.StatusTracker.StatusMsg);
+            }
+            else
+            {
+               // Console.WriteLine("GOO");
+            }
         }
 
         public void makeController()
         {
-            ShootController sc = new ShootController(game, gameWindow);
+
+            // ShootController sc = new ShootController(game, gameWindow);
+            ShootController sc = new ShootController(this.GSM, gameWindow);
             BulletTimeController bc = new BulletTimeController(game, gameWindow);
 
-            while (this.game.Running)
+            while (true)
             {
                 Thread.Sleep(10);
             }
@@ -206,6 +260,39 @@ namespace ChickenShooter.view
             }
         }
 
+        public void renderEntities(EntityContainer ec)
+        {
+
+
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                this.clearCanvas();
+                foreach (Entity e in ec)
+                {
+                    Image entityIcon = new Image();
+                    if (e.GetType() == typeof(Chicken))
+                    {
+                        entityIcon.Source = chickenImage;
+                    }
+                    else if (e.GetType() == typeof(Bullet))
+                    {
+                        entityIcon.Source = bulletImage;
+                    }
+                    else if (e.GetType() == typeof(Balloon))
+                    {
+                        entityIcon.Source = balloonImage;
+                    }
+                    entityIcon.Width = e.Width;
+                    entityIcon.Height = e.Height;
+                    Canvas.SetLeft(entityIcon, e.X);
+                    Canvas.SetTop(entityIcon, e.Y);
+                    Canvas.SetZIndex(entityIcon, -1);
+                    this.Children.Add(entityIcon);
+
+                }
+            }));
+        }
+
         public void update()
         {
             //Utilize UI Thread to update GUI
@@ -224,5 +311,7 @@ namespace ChickenShooter.view
             createInfoLabels();
         }
 
+
+        public GameStateManager GSM { get; set; }
     }
 }

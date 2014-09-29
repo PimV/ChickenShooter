@@ -110,7 +110,7 @@ namespace ChickenShooter.Model.Entities
         {
             if (dx > 0)
             {
-                Console.WriteLine((x + (dx * deltaTime) + width));
+               // Console.WriteLine((x + (dx * deltaTime) + width));
                 if (x + (dx * deltaTime) + width > screen_width)
                 {
                     dx = 0;
